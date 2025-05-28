@@ -31,7 +31,7 @@
 .welcome-card h1 {
   color: var(--primary-color); 
   font-family: 'Kufam', sans-serif;
-  font-size: 1.5rem;
+  font-size: 22px;
   font-style: normal;
   font-weight: 700; 
   line-height: normal;
@@ -114,7 +114,7 @@
 }
 
 .info-card h1 {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--principale);
@@ -151,7 +151,7 @@
 }
 
 .info2-card h1 {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--principale);
@@ -204,7 +204,7 @@
   overflow: hidden;
 }
 
-.welcome-card, .info-card, .info2-card {
+.info-card, .info2-card {
   padding-bottom: 20px; /* Ajout d'un padding en bas pour équilibrer */
   scroll-margin-top: 20px; /* Ajoute une marge au-dessus de l'ancre */
 }
