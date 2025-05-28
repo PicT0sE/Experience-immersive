@@ -173,3 +173,21 @@ html, body {
   font-weight: 700; 
   line-height: normal;
 }
+
+.langues-images {
+  display: flex;
+  gap: 15px; /* espace entre les images */
+  margin-top: 8px;
+  justify-content: center; /* centre les images sous le lien */
+}
+
+.langues-images img {
+  width: 60px; /* taille des images */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.langues-images img:hover {
+  transform: scale(1.1); /* léger zoom au survol */
+}
