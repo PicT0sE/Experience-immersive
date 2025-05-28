@@ -49,14 +49,14 @@ html, body {
 }
 
 .title {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--white-color);
   font-weight: 700;
   text-align: center;
 }
 
 .subtitle {
-  font-size: 12px;
+  font-size: 15px;
   color: var(--white-color);
   font-weight: 400;
   text-align: center; 
