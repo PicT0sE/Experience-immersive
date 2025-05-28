@@ -16,6 +16,8 @@
 html, body {
   font-family: 'Kufam', sans-serif;
   background-color: var(--white-color);
+  color: black !important;
+  color-scheme: light !important;
   height: 100%;
   width: 100%;
   display: flex;
@@ -43,19 +45,21 @@ html, body {
 
 .title-container {
   flex-grow: 1;
-  margin-left: 1rem;
+  margin-left: auto;
 }
 
 .title {
   font-size: 1.8rem;
   color: var(--white-color);
   font-weight: 700;
+  text-align: center;
 }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--white-color);
   font-weight: 400;
+  text-align: center; 
 }
 
 .burger-menu {
@@ -305,12 +309,3 @@ html, body {
   padding-bottom: 50px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: light;
-  }
-  body {
-    background-color: var(--white-color) !important;
-    color: initial !important;
-  }
-}
