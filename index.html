@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fort Napoléon - Expérience immersive</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="index.css" />
   <link href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
   <link rel="icon" href="svg/favicon.svg" type="image/svg+xml" />
 </head>
@@ -21,6 +22,10 @@
       <img src="svg/menu-burger.svg" alt="Menu burger" />
     </button>
   </header>
+
+  <div id="loading-screen">
+    <img src="gif/loading-screen.gif" alt="Chargement en cours" class="loading-gif" />
+  </div>
 
   <nav class="menu-overlay" aria-hidden="true">
     <div class="menu-content">
@@ -80,9 +85,11 @@
 
   <button class="cta-btn" aria-label="Confirmer que vous avez compris">
     Compris
-    <img src="svg/Flèche Bouton.svg" alt="Flèche" class="btn-arrow" />
+    <img src="svg/flèche btn bas.svg" alt="Flèche" class="btn-arrow" />
   </button>
 
   <script src="navbar.js"></script>
+  <script src="bouton.js"></script>
+  <script src="loading-screen.js"></script>
 </body>
 </html>

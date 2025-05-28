@@ -1,127 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap');
-
-:root {
-  --primary-color: rgba(90, 121, 249, 1);
-  --white-color: rgba(245, 245, 245, 1);
-  --btn-gradient-start: #F67F1E;
-  --btn-gradient-end: #EBC333;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  font-family: 'Kufam', sans-serif;
-  background-color: var(--white-color);
-  overflow: hidden; /* Empêche le scroll */
-  height: 100%;
-  color: black !important;
-  color-scheme: light !important;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-image: url('img/background.png');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border: 5px solid var(--white-color);
-  border-radius: 15px;
-  background-color: var(--primary-color);
-}
-
-.logo {
-  width: 50px;
-  height: 50px;
-}
-
-.title-container {
-  flex-grow: 1;
-  margin-left: auto;
-}
-
-.title {
-  font-size: 24px;
-  color: var(--white-color);
-  font-weight: 700;
-  text-align: center;
-}
-
-.subtitle {
-  font-size: 15px;
-  color: var(--white-color);
-  font-weight: 400;
-  text-align: center; 
-}
-
-.burger-menu {
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-}
-
-.burger-menu img {
-  width: 100%;
-  height: 100%;
-}
-
-.menu-overlay {
+#loading-screen {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  background-color: var(--primary-color);
-  display: none;
+  background-color: var(--white-color);
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
-.menu-overlay.active {
-  display: flex;
-}
-
-.menu-content {
-  text-align: center;
-  width: 80%;
-}
-
-.menu-content ul {
-  list-style: none;
-}
-
-.menu-content li {
-  margin: 1.5rem 0;
-}
-
-.menu-content a {
-  color: var(--white-color);
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.close-menu {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 3rem;
-  background: none;
-  border: none;
-  color: var(--white-color);
-  cursor: pointer;
+.loading-gif {
+  width: 80px; /* ajuste la taille selon ton GIF */
+  height: auto;
 }
 
 .welcome-card {
