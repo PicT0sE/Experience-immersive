@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+  --primary-color: rgba(90, 121, 249, 1);
+  --white-color: rgba(245, 245, 245, 1);
+  --btn-gradient-start: #F67F1E;
+  --btn-gradient-end: #EBC333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Kufam', sans-serif;
+  background-color: var(--white-color);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-image: url('img/background.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 5px solid var(--white-color);
+  border-radius: 15px;
+  background-color: var(--primary-color);
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.title-container {
+  flex-grow: 1;
+  margin-left: 1rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: var(--white-color);
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--white-color);
+  font-weight: 400;
+}
+
+.burger-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.burger-menu img {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--primary-color);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.menu-overlay.active {
+  display: flex;
+}
+
+.menu-content {
+  text-align: center;
+  width: 80%;
+}
+
+.menu-content ul {
+  list-style: none;
+}
+
+.menu-content li {
+  margin: 1.5rem 0;
+}
+
+.menu-content a {
+  color: var(--white-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.close-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 3rem;
+  background: none;
+  border: none;
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+.welcome-card {
+  background-color: var(--white-color);
+  border-radius: 45px / 30px; /* même border-radius squircle */
+  padding: 1.5rem;
+  margin:  1rem 1rem 3rem 1rem;
+  text-align: left;
+  box-shadow: 0 0 15px 3px rgba(74, 111, 255, 0.3); /* halo bleu clair */
+  font-family: 'Kufam', sans-serif;
+  color: #5a79f9; /* couleur bleue principale */
+  height: auto; /* Ajoute cette ligne si nécessaire */
+}
+
+.welcome-card h1 {
+  color: var(--primary-color); 
+  font-family: 'Kufam', sans-serif;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700; 
+  line-height: normal;
+  text-align: left;
+  margin-bottom: 1rem; /* Conserve cette marge si tu la souhaites */
+}
+
+.welcome-card p {
+  color: var(--primary-color);
+  font-family: 'Kufam', sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.illustration {
+  margin: 1rem 0;
+}
+
+.illustration img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.cta-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem; /* Ajout de padding sur tous les côtés */
+  border-radius: 0;
+  font-size: 1.5rem;
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box; /* Important pour inclure le padding dans la largeur */
+}
+
+.cta-btn span {
+  margin-left: 0.5em;
+}
+
+.cta-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.cta-btn .btn-arrow {
+  width: 20px;
+  height: auto;
+  margin-left: 0.5em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.cta-btn.hidden {
+  display: none;
+}
+
+.info-card {
+  background-color: var(--white-color);
+  border-radius: 45px / 30px; /* même border-radius squircle */
+  padding: 1.5rem;
+  margin:  3rem 1rem 3rem 1rem;
+  text-align: left;
+  box-shadow: 0 0 15px 3px rgba(74, 111, 255, 0.3); /* halo bleu clair */
+  font-family: 'Kufam', sans-serif;
+  color: #5a79f9; /* couleur bleue principale */
+}
+
+.info-card h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--principale);
+}
+
+.info-card p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.info-banner {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.info-banner img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(74, 111, 255, 0.2);
+}
+
+.info2-card {
+  background-color: var(--white-color);
+  border-radius: 45px / 30px;
+  padding: 1.5rem;
+  margin:  3rem 1rem 3rem 1rem;
+  text-align: left;
+  box-shadow: 0 0 15px 3px rgba(74, 111, 255, 0.3);
+  font-family: 'Kufam', sans-serif;
+  color: #5a79f9;
+}
+
+.info2-card h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--principale);
+}
+
+.info2-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info2-item {
+  display: flex;
+  flex-direction: column;
+  align-items: left; /* centre horizontalement le contenu */
+  gap: 0.5rem;
+  text-align: left; /* centre le texte */
+}
+
+.info2-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info2-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.info2-header h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--principale);
+}
+
+.info2-item p {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  max-width: 300px; /* optionnel, limite la largeur du texte */
+}
+
+.main-content{
+  padding-bottom: 50px;
+}
