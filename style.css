@@ -304,3 +304,13 @@ html, body {
 .main-content{
   padding-bottom: 50px;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+  body {
+    background-color: var(--white-color) !important;
+    color: initial !important;
+  }
+}
