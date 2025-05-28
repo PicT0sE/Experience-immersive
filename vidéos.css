@@ -1,0 +1,56 @@
+:root {
+  --primary-color: rgba(90, 121, 249, 1);
+  --white-color: rgba(245, 245, 245, 1);
+  --btn-gradient-start: #F67F1E;
+  --btn-gradient-end: #EBC333;
+}
+
+.videos1 {
+  padding: 2rem;
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.videos1 h1 {
+  font-family: 'Kufam', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 1.5rem;
+  color: var(--white-color);
+  text-align: left;
+}
+
+
+.video-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 35px;
+  border: 5px solid var(--white-color);
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-btn:hover {
+  background-color: rgba(90, 121, 249, 1);
+}

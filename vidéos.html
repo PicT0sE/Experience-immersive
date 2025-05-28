@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fort Napoléon - Expérience immersive</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="vidéos.css" />
   <link href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
   <link rel="icon" href="svg/favicon.svg" type="image/svg+xml" />
 </head>
@@ -43,9 +44,22 @@
     </div>
   </nav>
 
-    <img  src="img/tung tung tung sahur.png" alt="c'est tung tung tung sahur" />
-    <img  src="img/brr brr patapim.png" alt="c'est brr brr patapim" />
-
+    <section class="videos1">
+        <h1>Point d'intérêt 1</h1>
+        <div class="video-card" style="position: relative;">
+            <video 
+            width="100%" 
+            height="auto" 
+            poster="img/thumbnail vid1.png" 
+            preload="metadata" 
+            style="border-radius: 35px; border: 5px solid var(--white-color); display: block;"
+            >
+            <source src="vidéos/Gen-4 Turbo Au premier plan, un soldat anglais et un soldat anti-royale se battent, mouvement de caméra traveling avant 4095459008.mp4" type="video/mp4" />
+            Votre navigateur ne supporte pas la vidéo.
+            </video>
+            <button class="play-btn" aria-label="Lire la vidéo 1">▶</button>
+        </div>  
+    </section>
 
   <script src="navbar.js"></script>
 </body>
