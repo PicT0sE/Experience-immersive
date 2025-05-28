@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } else if (currentIndex === cards.length - 1) {
         // Dernière carte
-        button.textContent = 'Place à la visite 3/3 ';
+        button.textContent = 'Place à la visite (3/3) ';
         const newImg = document.createElement('img');
         newImg.src = 'svg/Flèche Bouton.svg'; // chemin vers la nouvelle image
         newImg.alt = 'Flèche';

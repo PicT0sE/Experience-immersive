@@ -1,3 +1,26 @@
+:root {
+  --primary-color: rgba(90, 121, 249, 1);
+  --white-color: rgba(245, 245, 245, 1);
+  --btn-gradient-start: #F67F1E;
+  --btn-gradient-end: #EBC333;
+}
+
+html, body {
+  font-family: 'Kufam', sans-serif;
+  background-color: var(--white-color);
+  overflow: hidden; /* Empêche le scroll */
+  height: 100%;
+  color: black !important;
+  color-scheme: light !important;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-image: url('img/background.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+}
+
 #loading-screen {
   position: fixed;
   top: 0;
@@ -12,13 +35,14 @@
 }
 
 .loading-gif {
-  width: 80px; /* ajuste la taille selon ton GIF */
+  width: 180px; /* ajuste la taille selon ton GIF */
   height: auto;
 }
 
 .welcome-card {
   background-color: var(--white-color);
   border-radius: 45px;
+  border: 2.5px solid var(--primary-color);
   padding: 1.5rem;
   margin:  1rem 1rem 3rem 1rem;
   text-align: left;
@@ -79,6 +103,11 @@
   z-index: 1001;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box; /* Important pour inclure le padding dans la largeur */
+  font-family: 'Kufam', sans-serif;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700; 
+  line-height: normal;
 }
 
 .cta-btn span {
@@ -105,6 +134,7 @@
 .info-card {
   background-color: var(--white-color);
   border-radius: 45px;
+  border: 2.5px solid var(--primary-color);
   padding: 1.5rem;
   margin:  3rem 1rem 3rem 1rem;
   text-align: left;
@@ -142,6 +172,7 @@
 .info2-card {
   background-color: var(--white-color);
   border-radius: 45px;
+  border: 2.5px solid var(--primary-color);
   padding: 1.5rem;
   margin:  3rem 1rem 3rem 1rem;
   text-align: left;
