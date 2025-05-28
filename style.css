@@ -123,11 +123,53 @@ html, body {
   cursor: pointer;
 }
 
-.menu-content li {
-  border-radius: 35px;
-  border: 10px solid #FFF;
+.menu-item-carte {
+  border-radius: 25px;
+  border: 5px solid #FFF;
   background: var(--principale, #5A79F9);
   padding: 10px; /* Pour que le contenu ne touche pas les bords */
-  list-style: none; /* Optionnel : enlève les puces */
   margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-carte a {
+  color: var(--white-color); 
+  font-family: 'Kufam', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700; 
+  line-height: normal;
+}
+
+.menu-item-vidéos {
+  border-radius: 25px;
+  border: 5px solid #FFF;
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  padding: 10px; /* Pour que le contenu ne touche pas les bords */
+  margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-vidéos a {
+  color: var(--white-color); 
+  font-family: 'Kufam', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700; 
+  line-height: normal;
+}
+
+.menu-item-langues {
+  border-radius: 25px;
+  border: 5px solid #FFF;
+  background: var(--white-color, #5A79F9);
+  padding: 10px; /* Pour que le contenu ne touche pas les bords */
+  margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-langues a {
+  color: var(--primary-color); 
+  font-family: 'Kufam', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700; 
+  line-height: normal;
 }
