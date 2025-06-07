@@ -33,7 +33,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border: 5px solid var(--white-color);
+  margin: 10px;
   border-radius: 15px;
   background-color: var(--primary-color);
 }
