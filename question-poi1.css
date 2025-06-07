@@ -3,6 +3,8 @@
   --white-color: rgba(245, 245, 245, 1);
   --btn-gradient-start: #F67F1E;
   --btn-gradient-end: #EBC333;
+  /* Nouvelle couleur pour le dégradé de sélection si vous voulez la réutiliser */
+  --selected-gradient-end: #354893;
 }
 
 html, body {
@@ -86,22 +88,24 @@ html, body {
 .option-btn {
   background-color: var(--white-color); /* Couleur de fond des boutons */
   color: var(--primary-color);
+  border: 2px solid var(--white-color); /* Bordure blanche ajoutée ici */
   border-radius: 15px; /* Arrondi des boutons */
   padding: 0.8rem;
-  margin:  0 0.8rem 0 0.8rem;
+  margin: 0 0.8rem 0 0.8rem;
   font-family: 'Kufam', sans-serif;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 500;
   text-align: center;
   cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Ajout de transition pour box-shadow */
 }
 
 .option-btn.selected {
-    background-color: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
-}
-
-.option-btn.selected {
-    background-color: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  /* Dégradé de fond de var(--primary-color) à #354893 */
+  background: linear-gradient(to right, var(--primary-color), #354893);
+  color: var(--white-color); /* Changer la couleur du texte pour qu'il soit visible sur le dégradé */
+  border-color: var(--white-color); /* Optionnel: maintenir la bordure blanche ou la changer */
+  box-shadow: 0px 0px 10px 0px #FFF; /* Ombre portée blanche ajoutée ici */
 }
 
 /* Styles pour le bouton de validation (cta-btn existant) */
@@ -113,23 +117,18 @@ html, body {
   padding: 1rem;
   border-radius: 0;
   font-size: 1.5rem;
-  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  background: var(--primary-color);
   color: white;
   border: none;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
   z-index: 1001;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; /* Ajout de transition pour background */
   box-sizing: border-box;
   font-family: 'Kufam', sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-}
-
-.cta-btn.validate-btn:hover {
-  transform: scale(1.02); /* Ajustez le scale si 1.05 est trop grand */
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25);
 }
