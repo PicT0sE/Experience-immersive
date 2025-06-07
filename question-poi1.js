@@ -6,18 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fonction pour gérer la sélection d'une option
   optionButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Désélectionner l'option précédemment sélectionnée
-      if (selectedOption) {
-        selectedOption.classList.remove('selected');
+      // Si l'option n'est pas déjà marquée comme incorrecte (désactivée)
+      if (!button.classList.contains('incorrect-answer')) {
+        // Désélectionner l'option précédemment sélectionnée
+        if (selectedOption) {
+          selectedOption.classList.remove('selected');
+        }
+        // Sélectionner la nouvelle option
+        button.classList.add('selected');
+        selectedOption = button;
+        validateButton.disabled = false; // Activer le bouton de validation
+        validateButton.textContent = 'Valider'; // Réinitialiser le texte du bouton
+        validateButton.style.background = ''; // Réinitialiser le background du bouton (retour au style CSS par défaut)
       }
-      // Sélectionner la nouvelle option
-      button.classList.add('selected');
-      selectedOption = button;
-      validateButton.disabled = false; // Activer le bouton de validation une fois une option sélectionnée
-      validateButton.textContent = 'Valider'; // Réinitialiser le texte du bouton si on change de sélection après un mauvais essai
-      // Si une mauvaise réponse a été donnée et que l'utilisateur sélectionne une nouvelle option,
-      // on remet le background par défaut si nécessaire (pas de dégradé orange)
-      validateButton.style.background = ''; // Remettre le background par défaut (via CSS)
     });
   });
 
@@ -30,29 +31,45 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Est correcte :', isCorrect);
 
       if (isCorrect) {
+        // Appliquer le style de bonne réponse à l'option sélectionnée
+        selectedOption.classList.add('correct-answer');
+
         // Désactiver tous les boutons d'option et le bouton Valider
         optionButtons.forEach(button => {
           button.disabled = true;
+          button.style.cursor = 'default'; /* Changer le curseur pour montrer la désactivation */
+          button.style.pointerEvents = 'none'; /* Rendre l'élément non cliquable */
         });
         validateButton.disabled = true;
 
-        // Changer le texte du bouton de validation
+        // Changer le texte et le background du bouton de validation
         validateButton.textContent = 'Bonne réponse !';
-        // Changer le background du bouton de validation en dégradé orange
         validateButton.style.background = 'linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end))';
 
         // Petite pause avant la redirection
         setTimeout(() => {
-          window.location.href = 'reponse-poi1.html'; // Redirection vers la page vidéos
-        }, 1500); // Redirige après 1.5 secondes
+          // window.location.href = 'vidéos.html'; // Redirection vers la page vidéos
+          // Ou si c'est pour une page spécifique de vidéo pour ce POI :
+          // window.location.href = 'video-poi1.html'; 
+          // Ou si c'est la page de réponse directe :
+          window.location.href = 'reponse-poi1.html'; 
+        }, 1500);
       } else {
         // Réponse mauvaise
-        // alert('Mauvaise réponse.'); // Cette ligne est supprimée
+        selectedOption.classList.add('incorrect-answer'); // Appliquer le style de mauvaise réponse
+        selectedOption.disabled = true; // Désactiver l'option incorrecte spécifiquement
+        selectedOption.style.cursor = 'not-allowed';
+        selectedOption.style.pointerEvents = 'none'; // Rendre l'élément non cliquable
+
         validateButton.textContent = 'Réessaie encore'; // Changer le texte du bouton
-        // Le bouton reste activé et les options aussi pour permettre un nouvel essai
-        validateButton.disabled = false; // S'assurer qu'il est activé
+
+        // Désélectionner l'option pour que l'utilisateur puisse en choisir une autre
+        selectedOption.classList.remove('selected');
+        selectedOption = null;
+        validateButton.disabled = true; // Désactiver le bouton Valider jusqu'à nouvelle sélection
       }
     } else {
+      // Si aucun bouton n'est sélectionné mais que l'utilisateur clique sur Valider
       alert('Veuillez sélectionner une option avant de valider.');
     }
   });
