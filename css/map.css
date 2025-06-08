@@ -1,0 +1,5 @@
+body {
+  padding-top: 0 !important; /* Ajoute un espace pour que le contenu ne passe pas sous la navbar */
+}
+
+#map { height: 100vh; }

@@ -1,0 +1,47 @@
+.videos {
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  border-radius: 15px;
+  max-width: 450px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.videos video{
+  border-radius: 0 0 15px 15px; 
+  width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.videos p {
+  margin: 20px 15px;
+  font-family: 'Kufam', sans-serif;
+  color: var(--white-color);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.video-card {
+  width: 100%;
+}
+
+.video-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 15px;
+}
+
+.main-content {
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 15px 50px 15px;
+}

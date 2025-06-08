@@ -1,0 +1,178 @@
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--white-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-gif {
+  width: 180px; /* ajuste la taille selon ton GIF */
+  height: auto;
+}
+
+.cta-btn {
+  display: flex;
+  flex-direction: row;
+  gap:20px;
+  align-items: center;
+
+  position: fixed;
+  bottom: 10px;
+  height:60px;
+  padding: 0 20px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  right:10px;
+
+  font-family: 'Kufam', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--white-color);
+ 
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  box-sizing: border-box; /* Important pour inclure le padding dans la largeur */
+
+}
+
+.cta-btn .btn-arrow {
+  width: 20px;
+  height: auto;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.cta-btn.hidden {
+  display: none;
+}
+
+.cta-btn-group {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  z-index: 1001;
+}
+
+
+
+.cta-btn-prev {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  height: 60px;
+  width: 60px;
+  min-width: 0;
+  border-radius: 15px;
+  box-sizing: border-box;
+
+  background: #fff; /* Fond blanc */
+  color: #5a79f9;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.10);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.cta-btn-prev .btn-arrow {
+  width: 20px;
+  height: auto;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.cta-btn-prev:disabled {
+  background: #cdcdcd;
+  color: #b0b0b0;
+  cursor: not-allowed;
+  opacity: 0.5; /* Opacité réduite à 50% quand désactivé */
+  backdrop-filter: blur(16px); /* Flou d'arrière-plan pour distinguer du texte */
+  -webkit-backdrop-filter: blur(16px); /* Support Safari */
+}
+
+.info-card{
+  background-color: var(--white-color);
+  border-radius: 15px; /* Retour à un arrondi classique */
+  padding: 20px 20px 30px 20px; /* Ajout de padding pour un espacement intérieur */
+  margin: 10px 15px;
+  text-align: left;
+  box-shadow: 0 0 15px 3px rgba(74, 111, 255, 0.3);
+  font-family: 'Kufam', sans-serif;
+  color: #5a79f9; /* couleur bleue principale */
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px; /* Limite la largeur maximale de la carte */
+}
+
+.info-card h1, h2 {  
+  color: var(--primary-color);
+  
+}
+
+.info-card p {
+  color: var(--primary-color);
+}
+
+.info-card-1 img {
+  max-width: 100%;
+  height: 120px;
+  display: block;
+  margin: 0 auto;
+}
+
+.info-card-2 img {
+  max-width:100%;
+  max-height: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+.info-card-3 img {
+  max-width: 100%;
+  height: 50px;
+  display: block;
+  margin: 0 0;
+}
+
+.info-3-item {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 20px;
+}
+
+.info-3-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 90px; /* Ajoute de la marge en bas pour ne pas cacher la dernière carte sous les boutons */
+}

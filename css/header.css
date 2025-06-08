@@ -1,0 +1,198 @@
+/* =====================
+   NAVBAR & MENU OVERLAY
+   ===================== */
+.navbar {
+  display: flex;
+  padding: 1rem;
+  margin: 15px auto; /* Centrage horizontal, margin modifiable */
+  border-radius: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  width: calc(100% - 30px); /* Largeur dynamique selon margin (2x15px) */
+  max-width: 1200px;
+  background-color: var(--primary-color);
+}
+
+.navbar h1 {
+  text-align: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.title-container {
+  flex-grow: 1;
+  margin: auto;
+}
+
+.subtitle {
+  color: var(--white-color);
+  text-align: center;;
+  font-style: italic;
+}
+
+.burger-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+}
+
+.burger-menu img {
+  width: 45px;
+  height: 45px;
+}
+
+/* =====================
+   MENU OVERLAY
+   ===================== */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(90, 121, 249, 0.8);
+  backdrop-filter: blur(5px); /* Flou d'arrière-plan moderne */
+  -webkit-backdrop-filter: blur(5px); /* Support Safari */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.menu-overlay.active {
+  display: flex;
+}
+
+.menu-content {
+  text-align: center;
+  width: 80%;
+}
+
+.menu-content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+}
+
+.menu-content a {
+  color: var(--white-color);
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.close-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 3rem;
+  background: none;
+  border: none;
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+/* =====================
+   MENU ITEMS
+   ===================== */
+.menu-list {
+  --padding: 20px;
+  --border-radius: 20px;
+  --border: 4px solid #FFF;
+}
+
+
+.menu-list a {
+  line-height: 26px;
+}
+
+.menu-item-carte {
+  border-radius: var(--border-radius);
+  border: var(--border);
+  background: var(--principale, #5A79F9);
+  padding: var(--padding); /* Pour que le contenu ne touche pas les bords */
+  margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-carte a {
+  color: var(--white-color); 
+  padding: 0 30%; /* Permet d'élargir la zone du clique*/
+}
+
+.menu-item-videos {
+  border-radius: var(--border-radius);
+  border: var(--border);
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  padding: var(--padding); /* Pour que le contenu ne touche pas les bords */
+  margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-videos a {
+  line-height: normal;
+  padding: var(--padding); 
+  /* permet d'élargir la zone du clique*/
+}
+
+.menu-item-langues {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  background: var(--white-color, #5A79F9);
+  padding: var(--padding);  /* Pour que le contenu ne touche pas les bords */
+  margin: 0; /* Pour éviter marges par défaut */
+}
+
+.menu-item-langues a {
+  color: var(--primary-color); 
+}
+
+/* =====================
+   LANGUE SELECTION (Drapeaux)
+   ===================== */
+.langues-images {
+  display: flex;
+  gap: 15px; /* espace entre les images */
+  justify-content: center; /* centre les images sous le lien */
+}
+
+.langues-images img {
+  width: 70px; /* taille des images */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.langues-images img:hover {
+  transform: scale(1.1); /* léger zoom au survol */
+}
+
+.langues-images img.selected {
+  box-shadow: 0 0 16px 4px #5a79f9, 0 8px 8px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* =====================
+   MENTIONS LÉGALES (Footer menu)
+   ===================== */
+.mentions-legales {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px !important;  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  text-decoration: underline !important;
+  cursor: pointer;
+}
