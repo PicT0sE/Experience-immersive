@@ -46,5 +46,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
-// Chemins relatifs pour les ressources (aucun chemin à corriger ici car pas d'accès direct à des fichiers statiques)

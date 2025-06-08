@@ -66,5 +66,3 @@ document.addEventListener('DOMContentLoaded', () => {
   // Le bouton Valider est désactivé par défaut au chargement de la page
   validateButton.disabled = true;
 });
-
-// Chemins relatifs : aucun accès direct à des fichiers statiques ici

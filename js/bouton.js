@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // Affiche uniquement la flèche
       const newImg = document.createElement('img');
-      newImg.src = './svg/fleche-dir-bas.svg';
+      newImg.src = '../svg/fleche-dir-bas.svg';
       newImg.alt = 'Flèche';
       newImg.className = 'btn-arrow';
       nextButton.appendChild(newImg);
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const oldArrows = prevButton.querySelectorAll('.btn-arrow');
     oldArrows.forEach(img => img.remove());
     const newImg = document.createElement('img');
-    newImg.src = './svg/fleche-dir-haut.svg';
+    newImg.src = '../svg/fleche-dir-haut.svg';
     newImg.alt = 'Flèche précédente';
     newImg.className = 'btn-arrow';
     prevButton.appendChild(newImg);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updatePrevButton();
       setButtonContent(currentIndex === cards.length - 1);
     } else {
-      window.location.href = './html/map.html';
+      window.location.href = 'map.html';
     }
   });
 
