@@ -1,5 +1,8 @@
-body {
-  padding-top: 0 !important; /* Ajoute un espace pour que le contenu ne passe pas sous la navbar */
+/* Supprime le padding-top du body uniquement pour map.html avec une spécificité plus forte */
+html, body {
+  padding-top: 0 !important;
 }
 
-#map { height: 100vh; }
+#map {
+  height: 100vh;
+}

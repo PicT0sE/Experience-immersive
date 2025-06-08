@@ -1,0 +1,38 @@
+<!-- Copie basée sur question-poi2.html, à personnaliser -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fort Napoléon - Point d'intérêt 3b</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/header.css" />
+  <link rel="stylesheet" href="../css/poi.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="../svg/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main class="main-content">
+      <div class="question-card">
+        <p class="poi-number">Point d'intérêt numéro 3b</p>
+        <div class="question-header">
+          <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
+          <p>Quelle vue avaient les attaquants sur le fort ?</p>
+        </div>
+        <div class="options-container">
+          <button class="option-btn" data-correct="false"><p>Une vue totale sur le fort</p></button>
+          <button class="option-btn" data-correct="false"><p>Une vue partielle à cause de la forêt</p></button>
+          <button class="option-btn" data-correct="false"><p>Une vue d’ensemble sur les défenseurs</p></button>
+          <button class="option-btn" data-correct="true"><p>Aucune vue sur le fort</p></button>
+        </div>
+      </div>
+  </main>
+
+  <button class="cta-btn validate-btn" aria-label="Valider la réponse">Valider</button>
+
+  <script src="../js/include-header.js"></script>
+  <script src="../js/question-poi3b.js"></script>
+</body>
+</html>
