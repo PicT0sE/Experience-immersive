@@ -1,5 +1,3 @@
-
-
 .main-content {
   display: flex;
   flex-direction: column;
@@ -46,3 +44,5 @@
 .textes-mentions-legales h1, .textes-mentions-legales h2, .textes-mentions-legales p {
   color: var(--white-color);
 }
+
+/* Aucun chemin d'image à corriger dans mentions-legales.css */

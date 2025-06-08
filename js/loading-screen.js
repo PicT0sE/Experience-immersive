@@ -18,3 +18,5 @@ window.addEventListener('load', () => {
     hideLoading();
   }
 });
+
+// Chemins relatifs : aucun accès direct à des fichiers statiques ici

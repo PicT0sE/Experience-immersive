@@ -1,5 +1,4 @@
 // Ce script insère le contenu de header.html dans #header-container
-// Correction : chemin relatif dynamique selon la page
 let headerPath = window.location.pathname.includes('/html/') ? 'header.html' : 'html/header.html';
 fetch(headerPath)
   .then(response => response.text())
