@@ -59,7 +59,7 @@ function success(position) {
 // Afficher l'image Fort-Napoléon-Carte.png comme fond de carte
 // Définir les coins sud-ouest et nord-est de l'image (à ajuster selon votre image)
 const imageBounds = [[43.092949, 5.891697], [43.095460, 5.895174]]; // [sud-ouest, nord-est]
-const imageOverlay = L.imageOverlay('../img/Fort-Napoléon-Carte.jpg', imageBounds, { opacity: 1 }).addTo(map);
+const imageOverlay = L.imageOverlay('./img/Fort-Napoléon-Carte.jpg', imageBounds, { opacity: 1 }).addTo(map);
 
 // Ajout des 7 POI
 const pois = [
