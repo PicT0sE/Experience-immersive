@@ -1,6 +1,6 @@
 /* Latitude, Longitude, Zoom de BASE sur la map */
 // Initialisation de la carte Leaflet centrée sur une position de base
-const map = L.map('map').setView([43.094422,5.893956], 20.5);
+const map = L.map('map').setView([43.094530,5.894036], 22);
 
 // Désactive toutes les interactions utilisateur (déplacement, zoom, etc.)
 map.dragging.disable();
@@ -14,7 +14,7 @@ map.zoomControl.remove();
 
 // Ajoute le fond de carte OpenStreetMap
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 21,
 }).addTo(map);
 
 // Utilise l'API de géolocalisation du navigateur pour centrer la carte sur la position de l'utilisateur
@@ -55,8 +55,26 @@ function erreur(err) {
 
 // Affiche une image personnalisée comme fond de carte (plan du Fort Napoléon)
 // Les coordonnées définissent les coins sud-ouest et nord-est de l'image
-const imageBounds = [[43.092949, 5.891697], [43.095460, 5.895174]]; // [sud-ouest, nord-est]
-const imageOverlay = L.imageOverlay('../img/Fort-Napoléon-Carte.jpg', imageBounds, { opacity: 1 }).addTo(map);
+const imageBounds = [[43.093000,5.891740], [43.095499, 5.895184]]; // [sud-ouest, nord-est]
+const imageOverlay = L.imageOverlay('../img/Fort-Napoléon-Carte.jpg', imageBounds, { opacity: 1}).addTo(map);
+
+/* Ajout : Masquer le fond de carte Leaflet (OpenStreetMap) pour n'afficher que l'image Fort-Napoléon-Carte.jpg */
+const style = document.createElement('style');
+style.innerHTML = `
+  .leaflet-tile-pane {
+    display: none !important;
+  }
+`;
+document.head.appendChild(style);
+
+/* Ajout : Fond blanc pour la carte */
+const styleBg = document.createElement('style');
+styleBg.innerHTML = `
+  #map {
+    background: #fff !important;
+  }
+`;
+document.head.appendChild(styleBg);
 
 // --- Gestion de l'étape du parcours ---
 let etape = parseInt(localStorage.getItem('etape') || '1'); // 1 par défaut
@@ -65,7 +83,7 @@ let etape = parseInt(localStorage.getItem('etape') || '1'); // 1 par défaut
 const pois = [
     {
         name: 'POI 1',
-        coords: [43.0940230, 5.8939384],
+        coords: [43.094023, 5.8939384],
         icons: {
             neutre: '../svg/pin-poi-1.svg',
             suivant: '../svg/pin-poi-1-suivant.svg',
@@ -128,55 +146,185 @@ const pois = [
     }
 ];
 
-// --- Centrage dynamique de la carte selon l'étape ---
-if (etape === 1) {
-    map.setView(pois[0].coords, 19);
-    map.panBy([0, -window.innerHeight * 0.18]);
-} else if (etape > 1 && etape <= pois.length) {
-    // Centre entre le POI précédent et le POI courant
-    let prev = pois[etape - 2].coords;
-    let curr = pois[etape - 1].coords;
-    let lat = (prev[0] + curr[0]) / 2;
-    let lng = (prev[1] + curr[1]) / 2;
-    map.setView([lat, lng], 19);
-    map.panBy([0, -window.innerHeight * 0.18]);
-}
+// --- Centrage dynamique de la carte selon l'étape ou la progression du parcours ---
+(function() {
+    // Détermine le premier POI non validé
+    const order = [
+        'poi1_valid',
+        'poi2_valid',
+        'poi3a_valid',
+        'poi3b_valid',
+        'poi4_valid',
+        'poi5_valid',
+        'poi6_valid'
+    ];
+    let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+    if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
+
+    // Si on est au tout début, centre sur le premier POI
+    if (nextPoiIndex === 0) {
+        map.setView(pois[0].coords, 19);
+        map.panBy([0, -window.innerHeight * 0.18]);
+    } else {
+        // Centre entre le dernier POI validé et le prochain à faire
+        const prev = pois[nextPoiIndex - 1].coords;
+        const curr = pois[nextPoiIndex].coords;
+        const lat = (prev[0] + curr[0]) / 2;
+        const lng = (prev[1] + curr[1]) / 2;
+        map.setView([lat, lng], 19);
+        map.panBy([0, -window.innerHeight * 0.18]);
+    }
+})();
 
 // --- Affichage dynamique des pins ---
 pois.forEach((poi, i) => {
     let iconType = 'neutre';
-    if (i + 1 < etape) iconType = 'valide';
-    else if (i + 1 === etape) iconType = 'suivant';
+    // Vérifie la validation de chaque POI dans l'ordre du parcours
+    if (i === 0 && localStorage.getItem('poi1_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 1 && localStorage.getItem('poi2_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 2 && localStorage.getItem('poi3a_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 3 && localStorage.getItem('poi3b_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 4 && localStorage.getItem('poi4_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 5 && localStorage.getItem('poi5_valid') === 'true') {
+        iconType = 'valide';
+    } else if (i === 6 && localStorage.getItem('poi6_valid') === 'true') {
+        iconType = 'valide';
+    } else {
+        // Le premier POI non validé devient le "suivant", les autres restent neutres
+        const order = [
+            'poi1_valid',
+            'poi2_valid',
+            'poi3a_valid',
+            'poi3b_valid',
+            'poi4_valid',
+            'poi5_valid',
+            'poi6_valid'
+        ];
+        let foundNext = false;
+        for (let j = 0; j < order.length; j++) {
+            if (localStorage.getItem(order[j]) !== 'true') {
+                if (i === j) iconType = 'suivant';
+                foundNext = true;
+                break;
+            }
+        }
+    }
+    // Correction de l'ancrage pour centrer l'icône sur la position exacte
     const icon = L.icon({
         iconUrl: poi.icons[iconType],
-        iconSize: [65, 65], // taille modifiée
-        iconAnchor: [32, 65],
-        popupAnchor: [0, -65]
+        iconSize: [175, 175],
+        iconAnchor: [87.5, 87.5], // Centre de l'icône
+        popupAnchor: [0, -87.5]
     });
-    const marker = L.marker(poi.coords, { icon }).addTo(map);
-    marker.bindPopup(`<h2>${poi.name}</h2><p>Coordonnées : ${poi.coords[0]}, ${poi.coords[1]}</p>`);
+    L.marker(poi.coords, { icon }).addTo(map);
 });
 
 // --- Détection de proximité et redirection automatique ---
 navigator.geolocation.getCurrentPosition(function(position) {
     const userLat = position.coords.latitude;
     const userLng = position.coords.longitude;
+    window.lastUserLat = userLat;
+    window.lastUserLng = userLng;
     // Affiche la position de l'utilisateur
     const userIcon = L.icon({
-        iconUrl: '../svg/Position.svg',
-        iconSize: [65, 65], // taille modifiée
-        iconAnchor: [32, 65],
-        popupAnchor: [0, -65]
+        iconUrl: '../svg/user-position.svg',
+        iconSize: [150, 150],
+        iconAnchor: [75, 75], // centre de l'icône utilisateur
+        popupAnchor: [0, -75]
     });
-    L.marker([userLat, userLng], { icon: userIcon }).addTo(map)
-        .bindPopup(`<h1>Vous êtes ici</h1><p>Latitude : ${userLat}</p><p>Longitude : ${userLng}</p>`).openPopup();
+    L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
+    // Suppression du bindPopup pour ne plus afficher de popup sur la position utilisateur
     // Vérifie la proximité avec le POI de l'étape
     const poi = pois[etape - 1];
     const dist = getDistance(userLat, userLng, poi.coords[0], poi.coords[1]);
+    // Empêche la redirection si le POI a déjà été validé
     if (dist < 3) {
-        window.location.href = `question-poi${etape}.html`;
+        if (etape === 1 && localStorage.getItem('poi1_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 2 && localStorage.getItem('poi2_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 3 && localStorage.getItem('poi3a_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 4 && localStorage.getItem('poi3b_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 5 && localStorage.getItem('poi4_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 6 && localStorage.getItem('poi5_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        } else if (etape === 7 && localStorage.getItem('poi6_valid') !== 'true') {
+            window.location.href = `question-poi${etape}.html`;
+        }
+    }
+    // Détermination dynamique de l'étape à valider (le premier POI non validé)
+    const order = [
+        'poi1_valid',
+        'poi2_valid',
+        'poi3a_valid',
+        'poi3b_valid',
+        'poi4_valid',
+        'poi5_valid',
+        'poi6_valid'
+    ];
+    let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+    if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
+    const nextPoi = pois[nextPoiIndex];
+    const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
+    // Redirige vers la question du prochain POI non validé si l'utilisateur est à proximité
+    if (nextDist < 3) {
+        const questionPages = [
+            'question-poi1.html',
+            'question-poi2.html',
+            'question-poi3a.html',
+            'question-poi3b.html',
+            'question-poi4.html',
+            'question-poi5.html',
+            'question-poi6.html'
+        ];
+        window.location.href = questionPages[nextPoiIndex];
     }
 }, erreur);
+
+// Quand la page de réponse d'un POI est atteinte, on marque l'étape comme validée
+if (window.location.pathname.includes('reponse-poi1.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 1) {
+        localStorage.setItem('etape', '2');
+    }
+}
+if (window.location.pathname.includes('reponse-poi2.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 2) {
+        localStorage.setItem('etape', '3');
+    }
+}
+if (window.location.pathname.includes('reponse-poi3a.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 3) {
+        localStorage.setItem('etape', '4');
+    }
+}
+if (window.location.pathname.includes('reponse-poi3b.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 4) {
+        localStorage.setItem('etape', '5');
+    }
+}
+if (window.location.pathname.includes('reponse-poi4.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 5) {
+        localStorage.setItem('etape', '6');
+    }
+}
+if (window.location.pathname.includes('reponse-poi5.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 6) {
+        localStorage.setItem('etape', '7');
+    }
+}
+if (window.location.pathname.includes('reponse-poi6.html')) {
+    if (parseInt(localStorage.getItem('etape')) === 7) {
+        localStorage.setItem('etape', '8');
+    }
+}
 
 // --- Fonction de calcul de distance (Haversine) ---
 function getDistance(lat1, lng1, lat2, lng2) {
@@ -190,3 +338,4 @@ function getDistance(lat1, lng1, lat2, lng2) {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
 }
+
