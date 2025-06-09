@@ -1,6 +1,7 @@
 /* Latitude, Longitude, Zoom de BASE sur la map */
 // Initialisation de la carte Leaflet centrée sur une position de base
-const map = L.map('map').setView([43.094530,5.894036], 22);
+// On ne centre plus ici, le centrage sera fait dynamiquement plus bas
+const map = L.map('map');
 
 // Désactive toutes les interactions utilisateur (déplacement, zoom, etc.)
 map.dragging.disable();
@@ -25,15 +26,8 @@ function success(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    // Centre la carte sur la position de l'utilisateur
-    map.setView([latitude, longitude], 17);
-    map.panBy([0, -window.innerHeight * 0.18]); // Décale la vue vers le haut
-
-    // Ajoute un marqueur à la position de l'utilisateur
-    const marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
-    marker.bindPopup(`<h1>Vous êtes ici</h1>
-                      <p>Latitude : ${latitude}</p>
-                      <p>Longitude : ${longitude}</p>`).openPopup();
+    // On n'effectue plus de centrage ici, on affiche juste le marqueur utilisateur
+    L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
 }
 
 // Fonction appelée si la géolocalisation échoue
@@ -159,20 +153,24 @@ const pois = [
         'poi6_valid'
     ];
     let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
-    if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
+    if (nextPoiIndex === -1) nextPoiIndex = pois.length; // tous validés
 
-    // Si on est au tout début, centre sur le premier POI
+    // Correction : après validation du POI 4, on centre bien entre le POI 4 (dernier validé) et le POI 5 (prochain à faire)
     if (nextPoiIndex === 0) {
+        // Aucun POI validé, on centre sur le premier
         map.setView(pois[0].coords, 19);
         map.panBy([0, -window.innerHeight * 0.18]);
-    } else {
-        // Centre entre le dernier POI validé et le prochain à faire
+    } else if (nextPoiIndex > 0 && nextPoiIndex < pois.length) {
+        // Cas particulier : après validation du POI 4, nextPoiIndex = 5, donc prev = 4, curr = 5
         const prev = pois[nextPoiIndex - 1].coords;
         const curr = pois[nextPoiIndex].coords;
         const lat = (prev[0] + curr[0]) / 2;
         const lng = (prev[1] + curr[1]) / 2;
         map.setView([lat, lng], 19);
         map.panBy([0, -window.innerHeight * 0.18]);
+    } else if (nextPoiIndex === pois.length) {
+        // Tous les POI sont validés : laisse la carte là où elle est (ne recentre pas)
+        // Pas d'appel à setView/panBy
     }
 })();
 
@@ -221,6 +219,7 @@ pois.forEach((poi, i) => {
         iconAnchor: [87.5, 87.5], // Centre de l'icône
         popupAnchor: [0, -87.5]
     });
+    // Ajoute le marqueur SANS popup
     L.marker(poi.coords, { icon }).addTo(map);
 });
 
@@ -325,6 +324,14 @@ if (window.location.pathname.includes('reponse-poi6.html')) {
         localStorage.setItem('etape', '8');
     }
 }
+
+// Icône personnalisée pour la position utilisateur (corrige l'erreur customIcon)
+const customIcon = L.icon({
+    iconUrl: '../svg/user-position.svg',
+    iconSize: [150, 150],
+    iconAnchor: [75, 75], // centre de l'icône utilisateur
+    popupAnchor: [0, -75]
+});
 
 // --- Fonction de calcul de distance (Haversine) ---
 function getDistance(lat1, lng1, lat2, lng2) {
