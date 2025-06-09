@@ -15,7 +15,7 @@
 
   <section class="main-content">
 
-    <div class="videos">
+    <div class="videos" data-poi="1">
       <p>Point d'intérêt 1</p>
       <div class="video-card" style="position: relative;">
         <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
@@ -25,17 +25,23 @@
       </div>
     </div>
 
-    <div class="videos">
+    <div class="photo360" data-poi="2">
       <p>Point d'intérêt 2</p>
-      <div class="video-card" style="position: relative;">
-        <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
-        <source src="../vidéos/Gen-4 Turbo Au premier plan, un soldat anglais et un soldat anti-royale se battent, mouvement de caméra traveling avant 4095459008.mp4" type="video/mp4" />
-        Votre navigateur ne supporte pas la vidéo.
-        </video>
+      <div class="photo360-card" style="position: relative;">
+        <div class="photo360-container" style="width:100%;max-width:600px;margin:auto;">
+        <iframe 
+          src="https://momento360.com/e/u/eb5a22ee745141f7883f475c20c84600?utm_campaign=embed&utm_source=other&heading=-22.74&pitch=-12.65&field-of-view=50&size=medium&display-plan=true" 
+          width="100%" 
+          height="250" 
+          frameborder="0" 
+          allowfullscreen 
+          allow="xr-spatial-tracking; gyroscope; accelerometer">
+        </iframe>
+        </div>
       </div>
     </div>
 
-    <div class="videos">
+    <div class="videos" data-poi="3a">
       <p>Point d'intérêt 3a</p>
       <div class="video-card" style="position: relative;">
         <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
@@ -45,7 +51,7 @@
       </div>
     </div>
 
-    <div class="videos">
+    <div class="videos" data-poi="3b">
       <p>Point d'intérêt 3b</p>
       <div class="video-card" style="position: relative;">
         <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
@@ -55,7 +61,7 @@
       </div>
     </div>
 
-    <div class="videos">
+    <div class="videos" data-poi="4">
       <p>Point d'intérêt 4</p>
       <div class="video-card" style="position: relative;">
         <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
@@ -65,17 +71,23 @@
       </div>
     </div>
 
-    <div class="videos">
+    <div class="photo360" data-poi="5">
       <p>Point d'intérêt 5</p>
-      <div class="video-card" style="position: relative;">
-        <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
-        <source src="../vidéos/Gen-4 Turbo Au premier plan, un soldat anglais et un soldat anti-royale se battent, mouvement de caméra traveling avant 4095459008.mp4" type="video/mp4" />
-        Votre navigateur ne supporte pas la vidéo.
-        </video>
+      <div class="photo360-card" style="position: relative;">
+        <div class="photo360-container" style="width:100%;max-width:600px;margin:auto;">
+        <iframe 
+          src="https://momento360.com/e/u/fdf54a64fb2741218bcaf52103b72dcc?utm_campaign=embed&utm_source=other&heading=-20.63&pitch=-8.65&field-of-view=50.17&size=medium&display-plan=true" 
+          width="100%" 
+          height="250" 
+          frameborder="0" 
+          allowfullscreen 
+          allow="xr-spatial-tracking; gyroscope; accelerometer">
+        </iframe>
+        </div>
       </div>
     </div>
 
-    <div class="videos">
+    <div class="videos" data-poi="6">
       <p>Point d'intérêt 6</p>
       <div class="video-card" style="position: relative;">
         <video id="myVideo" width="100%" height="auto" controls poster="../img/thumbnail vid1.png" preload="metadata">
@@ -88,5 +100,6 @@
   </section>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
 </body>
 </html>

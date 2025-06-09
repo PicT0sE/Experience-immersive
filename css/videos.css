@@ -17,6 +17,28 @@
   padding: 0;
 }
 
+.video-lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  border-radius: 15px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.videos video[style*="grayscale"] {
+  /* Pour s'assurer que le curseur change si la vidéo est grisée */
+  cursor: not-allowed;
+}
+
 .videos p {
   margin: 20px 15px;
   font-family: 'Kufam', sans-serif;
@@ -44,4 +66,65 @@
   justify-content: center;
   align-items: center;
   padding: 0px 15px 50px 15px;
+}
+
+.photo360 {
+  background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+  border-radius: 15px;
+  max-width: 450px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.photo360-card {
+  width: 100%;
+}
+
+.photo360-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  background: none;
+}
+
+.photo360-container iframe {
+  width: 100%;
+  height: 270px;
+  border: none;
+  border-radius: 0 0 15px 15px;
+  display: block;
+}
+
+.photo-lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  border-radius: 15px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.photo360 iframe[style*="grayscale"] {
+  cursor: not-allowed;
+}
+
+.photo360 p {
+  margin: 20px 15px;
+  font-family: 'Kufam', sans-serif;
+  color: var(--white-color);
+  font-size: 18px;
+  font-weight: 700;
 }

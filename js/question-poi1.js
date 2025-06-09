@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (selectedOption) {
       const isCorrect = selectedOption.dataset.correct === 'true';
       if (isCorrect) {
+        // Débloque la vidéo du POI correspondant
+        localStorage.setItem('poi1_valid', 'true');
         selectedOption.classList.add('correct-answer');
         optionButtons.forEach(button => {
           button.disabled = true;
