@@ -274,7 +274,7 @@ navigator.geolocation.getCurrentPosition(function(position) {
     const nextPoi = pois[nextPoiIndex];
     const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
     // Redirige vers la question du prochain POI non validé si l'utilisateur est à proximité
-    if (nextDist < 3) {
+    if (nextDist < 3 && nextPoiIndex < pois.length - 1) {
         const questionPages = [
             'question-poi1.html',
             'question-poi2.html',
@@ -285,6 +285,12 @@ navigator.geolocation.getCurrentPosition(function(position) {
             'question-poi6.html'
         ];
         window.location.href = questionPages[nextPoiIndex];
+    } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+        // Si on est sur le dernier POI et qu'il n'est pas validé, on autorise la redirection
+        window.location.href = 'question-poi6.html';
+    } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+        // Si le POI 6 est validé, on centre la carte sur la vue finale demandée
+        map.setView([43.094526056316866, 5.8933725276797215], 18);
     }
 }, erreur);
 
