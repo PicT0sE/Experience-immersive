@@ -1,4 +1,4 @@
-/* Latitude, Longitude, Zoom de BASE sur la map */
+// Latitude, Longitude, Zoom de BASE sur la map
 // Initialisation de la carte Leaflet centrée sur une position de base
 // On ne centre plus ici, le centrage sera fait dynamiquement plus bas
 const map = L.map('map');
@@ -164,7 +164,7 @@ const pois = [
         // Cas particulier : après validation du POI 4, nextPoiIndex = 5, donc prev = 4, curr = 5
         const prev = pois[nextPoiIndex - 1].coords;
         const curr = pois[nextPoiIndex].coords;
-        const lat = (prev[0] + curr[0]) / 2;
+        const lat = ((prev[0] + curr[0]) / 2) - 0.0002;
         const lng = (prev[1] + curr[1]) / 2;
         map.setView([lat, lng], 19);
         map.panBy([0, -window.innerHeight * 0.18]);
@@ -233,7 +233,7 @@ navigator.geolocation.getCurrentPosition(function(position) {
     const userIcon = L.icon({
         iconUrl: '../svg/user-position.svg',
         iconSize: [150, 150],
-        iconAnchor: [75, 75], // centre de l'icône utilisateur
+        iconAnchor: [75, 75], // Centre de l'icône utilisateur
         popupAnchor: [0, -75]
     });
     L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
