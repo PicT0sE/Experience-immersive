@@ -166,10 +166,11 @@
 }
 
 .langues-images img {
-  width: 50px; /* taille des images */
+  width: 50px;
   height: auto;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s;
+  opacity: 0.4; /* grisé par défaut */
 }
 
 .langues-images img:hover {
@@ -177,9 +178,10 @@
 }
 
 .langues-images img.selected {
-  box-shadow: 0 0 16px 4px #5a79f9, 0 8px 8px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px 0px #5a79f9, 0 8px 8px 0 rgba(0, 0, 0, 0.15);
   border-radius: 12px;
   z-index: 1;
+  opacity: 1; /* opacité max pour la langue sélectionnée */
 }
 
 /* =====================

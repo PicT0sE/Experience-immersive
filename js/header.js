@@ -16,33 +16,24 @@ closeMenuBtn.addEventListener("click", () => {
   ctaBtn.classList.remove("hidden");
 });
 
-// --- Gestion de la sélection de la langue (drapeaux) ---
-document.addEventListener('DOMContentLoaded', () => {
-  const languesImages = document.querySelectorAll('.langues-images img');
-  const defaultSelectedIndex = 0; // Français par défaut
-
-  // Met à jour l'opacité et l'ombre portée selon la langue sélectionnée
-  function updateOpacity(selectedIndex) {
-    languesImages.forEach((img, index) => {
-      img.style.opacity = (index === selectedIndex) ? '1' : '0.3';
-      img.style.cursor = 'pointer';
-      if (index === selectedIndex) {
-        img.classList.add('selected');
-      } else {
-        img.classList.remove('selected');
-      }
-    });
-  }
-
-  // Initialisation : français sélectionné
-  updateOpacity(defaultSelectedIndex);
-
-  // Ajout des événements clic sur chaque drapeau
-  languesImages.forEach((img, index) => {
-    img.addEventListener('click', () => {
-      updateOpacity(index);
-      // Ici tu peux ajouter du code pour changer la langue de l'app si besoin
-      console.log(`Langue sélectionnée : ${img.alt}`);
+// --- Gestion de la sélection de la langue (opacité 100%) ---
+function setupLangueSelection() {
+  const langueImages = document.querySelectorAll(".langues-images img");
+  if (langueImages.length === 0) return;
+  // Sélectionne le premier drapeau (Français) par défaut
+  langueImages.forEach(i => i.classList.remove("selected"));
+  if (langueImages[0]) langueImages[0].classList.add("selected");
+  langueImages.forEach(img => {
+    img.addEventListener("click", () => {
+      langueImages.forEach(i => i.classList.remove("selected"));
+      img.classList.add("selected");
     });
   });
-});
+}
+
+// S'assurer que le DOM est prêt ET que le menu est chargé dynamiquement
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setupLangueSelection);
+} else {
+  setupLangueSelection();
+}
