@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta http-equiv="refresh" content="2; url=html/index.html">
+  <!-- <meta http-equiv="refresh" content="2; url=html/index.html"> -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css" />
@@ -15,5 +15,10 @@
   </div>
 
   <script src="js/loading-screen.js"></script>
+  <script>
+    setTimeout(function() {
+      window.location.href = "html/index.html";
+    }, 2000); // 2000 ms = 2 secondes
+  </script>
 </body>
 </html>
