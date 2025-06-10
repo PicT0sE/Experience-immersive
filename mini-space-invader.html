@@ -18,28 +18,41 @@
       max-width: 100vw;
       max-height: 100vh;
     }
+    #gameover-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #gameover-overlay h1 {
+      color: #fff;
+      font-size: 4rem;
+      margin-bottom: 2rem;
+    }
+    #gameover-overlay button {
+      font-size: 2rem;
+      padding: 16px 32px;
+      background: #5a79f9;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(90,121,249,0.15);
+    }
   </style>
 </head>
 <body>
 <canvas id="game"></canvas>
-<button id="shoot-btn" style="    
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    font-size: 3rem;
-    padding: 50px 20px;
-    background: #5a79f9;
-    color: #fff;
-    border: none;
-    border-radius: 300px;
-    box-shadow: 0 2px 12px rgba(90, 121, 249, 0.15);
-    cursor: pointer;">Shoot</button>
 <script>
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-const shootBtn = document.getElementById('shoot-btn');
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -57,7 +70,7 @@ function getScale() {
 // Player
 const basePlayer = { x: 200, y: 570, w: 40, h: 20, speed: 2 };
 let player = { ...basePlayer };
-let left = false, right = false, space = false;
+let left = false, right = false;
 
 // Bullets
 let bullets = [];
@@ -79,25 +92,9 @@ function createAliens() {
 }
 createAliens();
 
-// Controls
-window.addEventListener('keydown', e => {
-  if (e.key === 'ArrowLeft') left = true;
-  if (e.key === 'ArrowRight') right = true;
-  if (e.key === ' ' || e.key === 'Spacebar') space = true;
-});
-window.addEventListener('keyup', e => {
-  if (e.key === 'ArrowLeft') left = false;
-  if (e.key === 'ArrowRight') right = false;
-  if (e.key === ' ' || e.key === 'Spacebar') space = false;
-});
-
-let canShoot = true;
+let lastShootTime = 0;
 function shoot() {
-  if (canShoot) {
-    bullets.push({ x: player.x + player.w/2 - 2, y: player.y, w: 4, h: 10 });
-    canShoot = false;
-    setTimeout(() => canShoot = true, 250);
-  }
+  bullets.push({ x: player.x + player.w/2 - 2, y: player.y, w: 4, h: 10 });
 }
 
 function update() {
@@ -106,7 +103,12 @@ function update() {
   // Adapter la position du joueur à la taille du canvas
   if (left && player.x > 0) player.x -= basePlayer.speed * scale;
   if (right && player.x < 400 - basePlayer.w) player.x += basePlayer.speed * scale;
-  if (space) shoot();
+  // Tir automatique : 1 balle toutes les 1,5 secondes
+  const now = Date.now();
+  if (now - lastShootTime > 500) {
+    shoot();
+    lastShootTime = now;
+  }
 
   // Adapter les bullets
   bullets.forEach(b => b.y -= 7 * scale);
@@ -137,6 +139,7 @@ function update() {
   // Game over if aliens reach player
   if (aliens.some(a => a.alive && a.y + a.h >= player.y)) {
     gameOver = true;
+    showGameOverScreen();
   }
 }
 
@@ -172,14 +175,7 @@ function draw() {
       }
     }
   });
-  // Game over
-  if (gameOver) {
-    ctx.fillStyle = '#fff';
-    ctx.font = '32px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('GAME OVER', 200, 300);
-    showReplayButton();
-  }
+
   // Win
   if (aliens.every(a => !a.alive)) {
     ctx.fillStyle = '#fff';
@@ -225,6 +221,50 @@ function restartGame() {
   if (btn) btn.remove();
 }
 
+function showGameOverScreen() {
+  // Supprimer le canvas
+  canvas.style.display = 'none';
+  // Créer un overlay
+  let overlay = document.createElement('div');
+  overlay.id = 'gameover-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.95)';
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  overlay.style.justifyContent = 'center';
+  overlay.style.alignItems = 'center';
+  overlay.style.zIndex = 1000;
+  // Texte Game Over
+  let title = document.createElement('h1');
+  title.textContent = 'GAME OVER';
+  title.style.color = '#fff';
+  title.style.fontSize = '4rem';
+  title.style.marginBottom = '2rem';
+  overlay.appendChild(title);
+  // Bouton rejouer
+  let btn = document.createElement('button');
+  btn.textContent = 'Rejouer';
+  btn.style.fontSize = '2rem';
+  btn.style.padding = '16px 32px';
+  btn.style.background = '#5a79f9';
+  btn.style.color = '#fff';
+  btn.style.border = 'none';
+  btn.style.borderRadius = '12px';
+  btn.style.cursor = 'pointer';
+  btn.style.boxShadow = '0 2px 12px rgba(90,121,249,0.15)';
+  btn.onclick = function() {
+    overlay.remove();
+    canvas.style.display = 'block';
+    restartGame();
+  };
+  overlay.appendChild(btn);
+  document.body.appendChild(overlay);
+}
+
 function loop() {
   update();
   draw();
@@ -232,43 +272,22 @@ function loop() {
 }
 loop();
 
-// Mobile: bouton shoot
-shootBtn.addEventListener('touchstart', function(e) {
-  e.preventDefault();
-  space = true;
-  setTimeout(() => { space = false; }, 100);
-});
-shootBtn.addEventListener('mousedown', function(e) {
-  e.preventDefault();
-  space = true;
-  setTimeout(() => { space = false; }, 100);
-});
-
-// Mobile: swipe pour déplacer le joueur
-let touchStartX = null;
+// Mobile: déplacement direct du vaisseau sous le doigt
 canvas.addEventListener('touchstart', function(e) {
   if (e.touches.length === 1) {
-    touchStartX = e.touches[0].clientX;
+    const rect = canvas.getBoundingClientRect();
+    const scale = getScale();
+    const touchX = (e.touches[0].clientX - rect.left) / scale;
+    player.x = Math.max(0, Math.min(400 - player.w, touchX - player.w / 2));
   }
 });
 canvas.addEventListener('touchmove', function(e) {
-  if (touchStartX !== null && e.touches.length === 1) {
-    const dx = e.touches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 20) {
-      if (dx > 0) {
-        right = true;
-        left = false;
-      } else {
-        left = true;
-        right = false;
-      }
-    }
+  if (e.touches.length === 1) {
+    const rect = canvas.getBoundingClientRect();
+    const scale = getScale();
+    const touchX = (e.touches[0].clientX - rect.left) / scale;
+    player.x = Math.max(0, Math.min(400 - player.w, touchX - player.w / 2));
   }
-});
-canvas.addEventListener('touchend', function(e) {
-  left = false;
-  right = false;
-  touchStartX = null;
 });
 </script>
 </body>
