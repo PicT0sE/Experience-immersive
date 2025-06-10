@@ -352,3 +352,11 @@ function getDistance(lat1, lng1, lat2, lng2) {
     return R * c;
 }
 
+// Masquer le bouton "suivant" si le POI 6 est validé
+window.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('poi6_valid') === 'true') {
+    const btnContainer = document.querySelector('.suivant-btn-container');
+    if (btnContainer) btnContainer.style.display = 'none';
+  }
+});
+

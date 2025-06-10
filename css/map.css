@@ -6,3 +6,42 @@ html, body {
 #map {
   height: 100vh;
 }
+
+.suivant-btn-container {
+  position: fixed;
+  left: 0;
+  bottom: 0px;
+  width: 100vw;
+  transform: none;
+  z-index: 3000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* le bouton n'est pas cliquable */
+}
+
+.suivant-btn {
+  width: 100%;
+  max-width: 600px;
+  background: linear-gradient(90deg, #5a79f9 0%, #354893 100%);
+  border: 3px solid #fff;
+  border-radius: 16px 16px 16px 0;
+  padding: 18px 32px;
+  box-shadow: 0 2px 12px rgba(90,121,249,0.15);
+  cursor: pointer;
+  margin: 15px;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.suivant-btn p {
+  margin: 0;
+  font-size: 1.3rem;
+  font-family: 'Kufam', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
