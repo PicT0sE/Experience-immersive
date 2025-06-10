@@ -198,7 +198,7 @@ function showReplayButton() {
   btn.style.left = '50%';
   btn.style.top = '60%';
   btn.style.transform = 'translate(-50%, -50%)';
-  btn.style.fontSize = '2rem';
+  btn.style.fontSize = '4rem';
   btn.style.padding = '16px 32px';
   btn.style.background = '#5a79f9';
   btn.style.color = '#fff';
@@ -208,6 +208,27 @@ function showReplayButton() {
   btn.style.boxShadow = '0 2px 12px rgba(90,121,249,0.15)';
   btn.onclick = restartGame;
   document.body.appendChild(btn);
+
+  // Ajout du bouton Exit
+  if (!document.getElementById('exit-btn')) {
+    const exitBtn = document.createElement('button');
+    exitBtn.id = 'exit-btn';
+    exitBtn.textContent = 'Quitter';
+    exitBtn.style.position = 'absolute';
+    exitBtn.style.left = '50%';
+    exitBtn.style.top = '70%';
+    exitBtn.style.transform = 'translate(-50%, -50%)';
+    exitBtn.style.fontSize = '4rem';
+    exitBtn.style.padding = '16px 32px';
+    exitBtn.style.background = '#f95a5a';
+    exitBtn.style.color = '#fff';
+    exitBtn.style.border = 'none';
+    exitBtn.style.borderRadius = '12px';
+    exitBtn.style.cursor = 'pointer';
+    exitBtn.style.boxShadow = '0 2px 12px rgba(249,90,90,0.15)';
+    exitBtn.onclick = function() { history.back(); };
+    document.body.appendChild(exitBtn);
+  }
 }
 
 function restartGame() {
@@ -219,6 +240,9 @@ function restartGame() {
   // Remove button
   const btn = document.getElementById('replay-btn');
   if (btn) btn.remove();
+  // Remove exit button
+  const exitBtn = document.getElementById('exit-btn');
+  if (exitBtn) exitBtn.remove();
 }
 
 function showGameOverScreen() {
@@ -262,6 +286,20 @@ function showGameOverScreen() {
     restartGame();
   };
   overlay.appendChild(btn);
+  // Bouton Exit
+  let exitBtn = document.createElement('button');
+  exitBtn.textContent = 'Exit';
+  exitBtn.style.fontSize = '2rem';
+  exitBtn.style.padding = '16px 32px';
+  exitBtn.style.background = '#f95a5a';
+  exitBtn.style.color = '#fff';
+  exitBtn.style.border = 'none';
+  exitBtn.style.borderRadius = '12px';
+  exitBtn.style.cursor = 'pointer';
+  exitBtn.style.boxShadow = '0 2px 12px rgba(249,90,90,0.15)';
+  exitBtn.style.marginTop = '1.5rem';
+  exitBtn.onclick = function() { history.back(); };
+  overlay.appendChild(exitBtn);
   document.body.appendChild(overlay);
 }
 
