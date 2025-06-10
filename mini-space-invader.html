@@ -105,7 +105,7 @@ function update() {
   if (right && player.x < 400 - basePlayer.w) player.x += basePlayer.speed * scale;
   // Tir automatique : 1 balle toutes les 1,5 secondes
   const now = Date.now();
-  if (now - lastShootTime > 500) {
+  if (now - lastShootTime > 300) {
     shoot();
     lastShootTime = now;
   }
