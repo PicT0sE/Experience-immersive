@@ -23,10 +23,21 @@ function setupLangueSelection() {
   // Sélectionne le premier drapeau (Français) par défaut
   langueImages.forEach(i => i.classList.remove("selected"));
   if (langueImages[0]) langueImages[0].classList.add("selected");
-  langueImages.forEach(img => {
+  // Ajout : Compteur de clics sur le drapeau français
+  let frClickCount = 0;
+  langueImages.forEach((img, idx) => {
     img.addEventListener("click", () => {
       langueImages.forEach(i => i.classList.remove("selected"));
       img.classList.add("selected");
+      // Si c'est le drapeau français (premier de la liste)
+      if (idx === 0) {
+        frClickCount++;
+        if (frClickCount === 7) {
+          window.location.href = "../mini-space-invader.html";
+        }
+      } else {
+        frClickCount = 0; // reset si on clique sur un autre drapeau
+      }
     });
   });
 }

@@ -2,7 +2,7 @@ window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loading-screen');
   if (!loadingScreen) return;
 
-  const minLoadingTime = 1000; // 1 seconde en ms
+  const minLoadingTime = 2500; // 2.5 seconde en ms
   const startTime = performance.now();
 
   const hideLoading = () => {

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Space Invader</title>
+  <style>
+    body { background: #111; margin: 0; width: 100vw; height: 100vh; overflow: hidden; }
+    html, body { height: 100%; }
+    canvas { 
+      background: #222; 
+      display: block; 
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      margin: 0;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<button id="shoot-btn" style="    
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 3rem;
+    padding: 50px 20px;
+    background: #5a79f9;
+    color: #fff;
+    border: none;
+    border-radius: 300px;
+    box-shadow: 0 2px 12px rgba(90, 121, 249, 0.15);
+    cursor: pointer;">Shoot</button>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const shootBtn = document.getElementById('shoot-btn');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Adapter les tailles et positions du jeu à la taille du canvas
+// On utilise des proportions pour que tout s'adapte
+function getScale() {
+  return Math.min(canvas.width / 400, canvas.height / 600);
+}
+
+// Player
+const basePlayer = { x: 200, y: 570, w: 40, h: 20, speed: 2 };
+let player = { ...basePlayer };
+let left = false, right = false, space = false;
+
+// Bullets
+let bullets = [];
+
+// Aliens
+let aliens = [];
+let alienDir = 1;
+let alienSpeed = 0.3;
+let alienStep = 20;
+let gameOver = false;
+
+function createAliens() {
+  aliens = [];
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 8; col++) {
+      aliens.push({ x: 40 + col * 40, y: 40 + row * 40, w: 30, h: 20, alive: true });
+    }
+  }
+}
+createAliens();
+
+// Controls
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') left = true;
+  if (e.key === 'ArrowRight') right = true;
+  if (e.key === ' ' || e.key === 'Spacebar') space = true;
+});
+window.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft') left = false;
+  if (e.key === 'ArrowRight') right = false;
+  if (e.key === ' ' || e.key === 'Spacebar') space = false;
+});
+
+let canShoot = true;
+function shoot() {
+  if (canShoot) {
+    bullets.push({ x: player.x + player.w/2 - 2, y: player.y, w: 4, h: 10 });
+    canShoot = false;
+    setTimeout(() => canShoot = true, 250);
+  }
+}
+
+function update() {
+  if (gameOver) return;
+  const scale = getScale();
+  // Adapter la position du joueur à la taille du canvas
+  if (left && player.x > 0) player.x -= basePlayer.speed * scale;
+  if (right && player.x < 400 - basePlayer.w) player.x += basePlayer.speed * scale;
+  if (space) shoot();
+
+  // Adapter les bullets
+  bullets.forEach(b => b.y -= 7 * scale);
+  bullets = bullets.filter(b => b.y > 0);
+
+  // Aliens move
+  let hitEdge = false;
+  aliens.forEach(a => {
+    if (!a.alive) return;
+    a.x += alienDir * alienSpeed * scale;
+    if (a.x < 0 || a.x + a.w > 400) hitEdge = true;
+  });
+  if (hitEdge) {
+    alienDir *= -1;
+    aliens.forEach(a => a.y += alienStep * scale);
+  }
+
+  // Collision bullets/aliens
+  bullets.forEach(b => {
+    aliens.forEach(a => {
+      if (a.alive && b.x < a.x + a.w && b.x + b.w > a.x && b.y < a.y + a.h && b.y + b.h > a.y) {
+        a.alive = false;
+        b.y = -100;
+      }
+    });
+  });
+
+  // Game over if aliens reach player
+  if (aliens.some(a => a.alive && a.y + a.h >= player.y)) {
+    gameOver = true;
+  }
+}
+
+// Préchargement des images SVG
+const alienImg = new Image();
+alienImg.src = 'svg/favicon.svg';
+const playerImg = new Image();
+playerImg.src = 'svg/Mascotte.svg';
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const scale = getScale();
+  ctx.save();
+  ctx.scale(scale, scale);
+  // Player
+  if (playerImg.complete) {
+    ctx.drawImage(playerImg, player.x, player.y, basePlayer.w, basePlayer.h);
+  } else {
+    ctx.fillStyle = '#0f0';
+    ctx.fillRect(player.x, player.y, basePlayer.w, basePlayer.h);
+  }
+  // Bullets
+  ctx.fillStyle = '#fff';
+  bullets.forEach(b => ctx.fillRect(b.x, b.y, b.w, b.h));
+  // Aliens
+  aliens.forEach(a => {
+    if (a.alive) {
+      if (alienImg.complete) {
+        ctx.drawImage(alienImg, a.x, a.y, a.w, a.h);
+      } else {
+        ctx.fillStyle = '#f44';
+        ctx.fillRect(a.x, a.y, a.w, a.h);
+      }
+    }
+  });
+  // Game over
+  if (gameOver) {
+    ctx.fillStyle = '#fff';
+    ctx.font = '32px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', 200, 300);
+    showReplayButton();
+  }
+  // Win
+  if (aliens.every(a => !a.alive)) {
+    ctx.fillStyle = '#fff';
+    ctx.font = '32px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('VICTOIRE !', 200, 300);
+    gameOver = true;
+    showReplayButton();
+  }
+  ctx.restore();
+}
+
+// Ajout du bouton rejouer
+function showReplayButton() {
+  if (document.getElementById('replay-btn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'replay-btn';
+  btn.textContent = 'Rejouer';
+  btn.style.position = 'absolute';
+  btn.style.left = '50%';
+  btn.style.top = '60%';
+  btn.style.transform = 'translate(-50%, -50%)';
+  btn.style.fontSize = '2rem';
+  btn.style.padding = '16px 32px';
+  btn.style.background = '#5a79f9';
+  btn.style.color = '#fff';
+  btn.style.border = 'none';
+  btn.style.borderRadius = '12px';
+  btn.style.cursor = 'pointer';
+  btn.style.boxShadow = '0 2px 12px rgba(90,121,249,0.15)';
+  btn.onclick = restartGame;
+  document.body.appendChild(btn);
+}
+
+function restartGame() {
+  // Reset all variables
+  player = { ...basePlayer };
+  bullets = [];
+  createAliens();
+  gameOver = false;
+  // Remove button
+  const btn = document.getElementById('replay-btn');
+  if (btn) btn.remove();
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+
+// Mobile: bouton shoot
+shootBtn.addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  space = true;
+  setTimeout(() => { space = false; }, 100);
+});
+shootBtn.addEventListener('mousedown', function(e) {
+  e.preventDefault();
+  space = true;
+  setTimeout(() => { space = false; }, 100);
+});
+
+// Mobile: swipe pour déplacer le joueur
+let touchStartX = null;
+canvas.addEventListener('touchstart', function(e) {
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+  }
+});
+canvas.addEventListener('touchmove', function(e) {
+  if (touchStartX !== null && e.touches.length === 1) {
+    const dx = e.touches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 20) {
+      if (dx > 0) {
+        right = true;
+        left = false;
+      } else {
+        left = true;
+        right = false;
+      }
+    }
+  }
+});
+canvas.addEventListener('touchend', function(e) {
+  left = false;
+  right = false;
+  touchStartX = null;
+});
+</script>
+</body>
+</html>
