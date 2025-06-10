@@ -223,8 +223,18 @@ pois.forEach((poi, i) => {
     L.marker(poi.coords, { icon }).addTo(map);
 });
 
+// --- Fonction pour centrer sur la vue finale ---
+function centerOnFinalView() {
+    map.setView([43.094526056316866, 5.8933725276797215], 18);
+}
+
 // --- Détection de proximité et redirection automatique ---
 navigator.geolocation.getCurrentPosition(function(position) {
+    // Si le POI 6 est validé, on centre la carte sur la vue finale et on ne fait plus rien d'autre
+    if (localStorage.getItem('poi6_valid') === 'true') {
+        centerOnFinalView();
+        return;
+    }
     const userLat = position.coords.latitude;
     const userLng = position.coords.longitude;
     window.lastUserLat = userLat;
