@@ -38,7 +38,7 @@ html, body {
     background-color: var(--primary-color);
     border-radius: 25px;
     margin: 15px;
-    
+    border: var(--border);
     font-family: 'Kufam', sans-serif;
 }
 .question-card p {
@@ -59,6 +59,7 @@ html, body {
   margin-bottom: 1rem;
   background-color: var(--white-color);
   padding: 0.8rem;
+  border: var(--border);
 }
 .question-header p {
   color: var(--primary-color);
@@ -85,7 +86,7 @@ html, body {
 .reponse-btn {
   background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
   color: var(--primary-color);
-  border: 2px solid var(--white-color);
+  border: var(--border);
   border-radius: 15px;
   padding: 1rem;
   margin: 0 0.8rem 0 0.8rem;
@@ -101,7 +102,7 @@ html, body {
 .option-btn {
   background-color: var(--white-color);
   color: var(--primary-color);
-  border: 2px solid var(--white-color);
+  border: var(--border);
   border-radius: 15px;
   padding: 1rem;
   margin: 0 0.8rem 0 0.8rem;
@@ -147,7 +148,7 @@ html, body {
   width: 95%;
   max-width: 600px;
   border-radius: 15px;
-  border: 3px solid var(--white-color);
+  border: var(--border);
   overflow: hidden;
 }
 .video-player-container video {

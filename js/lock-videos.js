@@ -61,6 +61,8 @@ function unlockVideoIfValidated(poiNumber) {
         video.controls = true;
         const overlay = video.parentElement.querySelector('.video-lock-overlay');
         if (overlay) overlay.remove();
+        // Retire la classe locked
+        videoSection.classList.remove('locked');
       }
     }
   }
@@ -139,6 +141,8 @@ function unlockPhotoIfValidated(poiNumber) {
         iframe.style.pointerEvents = '';
         const overlay = iframe.parentElement.querySelector('.photo-lock-overlay');
         if (overlay) overlay.remove();
+        // Retire la classe locked
+        photoSection.classList.remove('locked');
       }
     }
   }
@@ -159,6 +163,21 @@ function setupPhotoUnlockListeners() {
 
 // Appel pour chaque POI vidéo et photo 360 (adapte selon l'ordre réel)
 window.addEventListener('DOMContentLoaded', function() {
+  // Ajout : applique la classe .locked sur les vidéos et photos 360 non débloquées
+  const videoPOIs = ['1','3a','3b','4','6'];
+  videoPOIs.forEach(function(poi) {
+    const section = document.querySelector(`.videos[data-poi="${poi}"]`);
+    if (section && localStorage.getItem(`poi${poi}_valid`) !== 'true') {
+      section.classList.add('locked');
+    }
+  });
+  const photoPOIs = ['2','5'];
+  photoPOIs.forEach(function(poi) {
+    const section = document.querySelector(`.photo360[data-poi="${poi}"]`);
+    if (section && localStorage.getItem(`poi${poi}_valid`) !== 'true') {
+      section.classList.add('locked');
+    }
+  });
   lockVideoIfNotValidated('1');
   lockVideoIfNotValidated('3a');
   lockVideoIfNotValidated('3b');

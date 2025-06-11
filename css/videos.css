@@ -1,3 +1,12 @@
+/* html, body {
+  background-color: var(--primary-color) !important;
+  background-image: none !important;
+} */
+
+.main-content h1{
+  color: var(--primary-color);
+}
+
 .videos {
   background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
   border-radius: 15px;
@@ -72,6 +81,7 @@
   background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
   border-radius: 15px;
   max-width: 450px;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -127,4 +137,18 @@
   color: var(--white-color);
   font-size: 18px;
   font-weight: 700;
+}
+
+/* Ajout : fond bleu pour les vidéos et photos 360 non débloquées */
+.videos.locked,
+.photo360.locked {
+  background: var(--primary-color, #5A79F9) !important;
+  filter: none !important;
+  opacity: 0.85;
+  transition: background 0.3s, opacity 0.3s;
+}
+
+.videos.locked p,
+.photo360.locked p {
+  color: #fff !important;
 }

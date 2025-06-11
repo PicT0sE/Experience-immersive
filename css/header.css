@@ -1,18 +1,22 @@
 /* =====================
-   MENU VAR ITEMS
-   ===================== */
-.menu-list {
-  --padding: 20px;
-  --border-radius: 20px;
-  --border: 4px solid #FFF;
-}
-
-/* =====================
    NAVBAR & MENU OVERLAY
    ===================== */
+.header-gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px; /* Ajuste selon la hauteur de ton header */
+  z-index: 1999;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
 .navbar {
   display: flex;
-  padding: 1rem;
+  align-content: center;
+  justify-content: center;
+  padding: 15px;
   margin: 15px auto; /* Centrage horizontal, margin modifiable */
   border-radius: 15px;
   position: fixed;
@@ -22,8 +26,9 @@
   z-index: 2000;
   width: calc(100% - 30px); /* Largeur dynamique selon margin (2x15px) */
   max-width: 1200px;
-  background-color: var(--primary-color);
-  outline: 4px solid #FFF; /* Bordure extérieure blanche */
+  background: var(--primary-color);
+  /* background: linear-gradient(90deg, var(--primary-color), var(--primary-gradient-end)); */
+  border: var(--border);
 }
 
 .navbar h1 {
@@ -33,11 +38,18 @@
 .logo {
   width: 50px;
   height: 50px;
+  /* margin: 0 -5px 0 5px; Ajustement pour centrer le logo */
+  flex-shrink: 0; /* Empêche le logo de rétrécir */
+}
+
+.logo-link {
+  display: flex;
+  align-items: center
 }
 
 .title-container {
   flex-grow: 1;
-  margin: auto;
+  margin-left: -7.5px;
 }
 
 .subtitle {
@@ -47,6 +59,8 @@
 }
 
 .burger-menu {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   cursor: pointer;
@@ -112,7 +126,11 @@
 }
 
 .menu-list a {
-  line-height: 26px;
+  line-height: 25px;
+}
+
+.menu-item {
+  padding: 0 auto;
 }
 
 .menu-item-carte {
@@ -125,7 +143,6 @@
 
 .menu-item-carte a {
   color: var(--white-color); 
-  padding: 0 90px 0 90px; /* Permet d'élargir la zone du clique*/
 }
 
 .menu-item-videos {
@@ -138,7 +155,6 @@
 
 .menu-item-videos a {
   line-height: normal;
-  padding: 0 85px 0 85px; /* Permet d'élargir la zone du clique*/
 }
 
 .menu-item-langues {

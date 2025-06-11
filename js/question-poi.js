@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
           button.style.fontWeight = '700';
           setTimeout(() => {
             if (reponsePage) window.location.href = reponsePage;
-          }, 2000); // Redirection après 2 secondes
+          }, 1000); // Redirection après 0.5 secondes
         } else {
           // Ajout de l'effet shake sur la question-card 
           const questionCard = document.querySelector('.question-card');

@@ -2,10 +2,15 @@
 
 :root {
   --primary-color: rgba(90, 121, 249, 1);
+  --primary-gradient-end: #354893;
   --white-color: rgb(255, 255, 255);
   --black-color: rgb(0, 0, 0);
   --btn-gradient-start: #F67F1E;
   --btn-gradient-end: #EBC333;
+  --border-color: rgba(255, 255, 255, 1);
+  --border: 3px solid var(--border-color);
+  --padding: 20px;
+  --border-radius: 20px;
 }
 
 * {
@@ -18,7 +23,7 @@ html, body {
   font-family: 'Kufam', sans-serif;
   background-color: var(--white-color);
   height: 100%;
-  color: black !important; /* Force text color to black */
+  color: var(--black-color) !important; /* Force text color to black */
   color-scheme: light !important;
   width: 100%;
   display: flex;
