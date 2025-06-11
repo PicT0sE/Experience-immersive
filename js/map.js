@@ -175,53 +175,55 @@ const pois = [
 })();
 
 // --- Affichage dynamique des pins ---
+function getPoiIcon(poi, iconType, reduced = false) {
+    const size = reduced ? 87.5 : 175;
+    return L.icon({
+        iconUrl: poi.icons[iconType],
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -size / 2]
+    });
+}
+
+let reducedIcons = [
+    'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid'
+].every(key => localStorage.getItem(key) === 'true');
+
 pois.forEach((poi, i) => {
     let iconType = 'neutre';
-    // Vérifie la validation de chaque POI dans l'ordre du parcours
-    if (i === 0 && localStorage.getItem('poi1_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 1 && localStorage.getItem('poi2_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 2 && localStorage.getItem('poi3a_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 3 && localStorage.getItem('poi3b_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 4 && localStorage.getItem('poi4_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 5 && localStorage.getItem('poi5_valid') === 'true') {
-        iconType = 'valide';
-    } else if (i === 6 && localStorage.getItem('poi6_valid') === 'true') {
-        iconType = 'valide';
-    } else {
-        // Le premier POI non validé devient le "suivant", les autres restent neutres
+    if (i === 0 && localStorage.getItem('poi1_valid') === 'true') iconType = 'valide';
+    else if (i === 1 && localStorage.getItem('poi2_valid') === 'true') iconType = 'valide';
+    else if (i === 2 && localStorage.getItem('poi3a_valid') === 'true') iconType = 'valide';
+    else if (i === 3 && localStorage.getItem('poi3b_valid') === 'true') iconType = 'valide';
+    else if (i === 4 && localStorage.getItem('poi4_valid') === 'true') iconType = 'valide';
+    else if (i === 5 && localStorage.getItem('poi5_valid') === 'true') iconType = 'valide';
+    else if (i === 6 && localStorage.getItem('poi6_valid') === 'true') iconType = 'valide';
+    else {
         const order = [
-            'poi1_valid',
-            'poi2_valid',
-            'poi3a_valid',
-            'poi3b_valid',
-            'poi4_valid',
-            'poi5_valid',
-            'poi6_valid'
+            'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid'
         ];
-        let foundNext = false;
         for (let j = 0; j < order.length; j++) {
             if (localStorage.getItem(order[j]) !== 'true') {
                 if (i === j) iconType = 'suivant';
-                foundNext = true;
                 break;
             }
         }
     }
-    // Correction de l'ancrage pour centrer l'icône sur la position exacte
-    const icon = L.icon({
-        iconUrl: poi.icons[iconType],
-        iconSize: [175, 175],
-        iconAnchor: [87.5, 87.5], // Centre de l'icône
-        popupAnchor: [0, -87.5]
-    });
-    // Ajoute le marqueur SANS popup
+    const icon = getPoiIcon(poi, iconType, reducedIcons);
     L.marker(poi.coords, { icon }).addTo(map);
 });
+
+// --- Affichage de la position utilisateur avec taille dynamique ---
+function addUserMarker(userLat, userLng, reduced = false) {
+    const size = reduced ? 75 : 150;
+    const userIcon = L.icon({
+        iconUrl: '../svg/user-position.svg',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -size / 2]
+    });
+    L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
+}
 
 // --- Fonction pour centrer sur la vue finale ---
 function centerOnFinalView() {
@@ -231,23 +233,15 @@ function centerOnFinalView() {
 // --- Détection de proximité et redirection automatique ---
 if (!window.location.search.includes('emulateGPS')) {
   navigator.geolocation.getCurrentPosition(function(position) {
-      // Si le POI 6 est validé, on centre la carte sur la vue finale
       if (localStorage.getItem('poi6_valid') === 'true') {
           centerOnFinalView();
-          // On ne retourne plus ici, on continue pour afficher la position utilisateur
       }
       const userLat = position.coords.latitude;
       const userLng = position.coords.longitude;
       window.lastUserLat = userLat;
       window.lastUserLng = userLng;
-      // Affiche la position de l'utilisateur
-      const userIcon = L.icon({
-          iconUrl: '../svg/user-position.svg',
-          iconSize: [150, 150],
-          iconAnchor: [75, 75], // Centre de l'icône utilisateur
-          popupAnchor: [0, -75]
-      });
-      L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
+      // Affiche la position de l'utilisateur avec taille dynamique
+      addUserMarker(userLat, userLng, reducedIcons);
       // Suppression du bindPopup pour ne plus afficher de popup sur la position utilisateur
       // Vérifie la proximité avec le POI de l'étape
       const poi = pois[etape - 1];
@@ -386,6 +380,7 @@ window.addEventListener('DOMContentLoaded', function() {
         [
           'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid', 'etape'
         ].forEach(key => localStorage.removeItem(key));
+        // Les icônes reprendront leur taille normale au rechargement de la page
         location.reload();
       }
     });
