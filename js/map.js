@@ -76,65 +76,72 @@ let etape = parseInt(localStorage.getItem('etape') || '1'); // 1 par défaut
 // --- Définition des POI avec leurs icônes dynamiques ---
 const pois = [
     {
+        id: 'poi1',
         name: 'POI 1',
         coords: [43.094023, 5.8939384],
         icons: {
             neutre: '../svg/pin-poi-1.svg',
-            suivant: '../svg/pin-poi-1-suivant.svg',
+            suivant: '../gif/pin-poi-1-suivant.gif',
             valide: '../svg/pin-poi-1-valide.svg'
         }
     },
     {
+        id: 'poi2',
         name: 'POI 2',
         coords: [43.094578, 5.894156],
         icons: {
             neutre: '../svg/pin-poi-2.svg',
-            suivant: '../svg/pin-poi-2-suivant.svg',
+            suivant: '../gif/pin-poi-2-suivant.gif',
             valide: '../svg/pin-poi-2-valide.svg'
         }
     },
     {
+        id: 'poi3a',
         name: 'POI 3a',
         coords: [43.094631, 5.893479],
         icons: {
             neutre: '../svg/pin-poi-3a.svg',
-            suivant: '../svg/pin-poi-3a-suivant.svg',
+            suivant: '../gif/pin-poi-3a-suivant.gif',
             valide: '../svg/pin-poi-3a-valide.svg'
         }
     },
     {
+        id: 'poi3b',
         name: 'POI 3b',
         coords: [43.094851, 5.893623],
         icons: {
             neutre: '../svg/pin-poi-3b.svg',
-            suivant: '../svg/pin-poi-3b-suivant.svg',
+            suivant: '../gif/pin-poi-3b-suivant.gif',
             valide: '../svg/pin-poi-3b-valide.svg'
         }
     },
     {
+        id: 'poi4',
         name: 'POI 4',
         coords: [43.094843, 5.892855],
         icons: {
             neutre: '../svg/pin-poi-4.svg',
-            suivant: '../svg/pin-poi-4-suivant.svg',
+            suivant: '../gif/pin-poi-4-suivant.gif',
             valide: '../svg/pin-poi-4-valide.svg'
         }
     },
     {
+        id: 'poi5',
         name: 'POI 5',
         coords: [43.094441, 5.892704],
         icons: {
             neutre: '../svg/pin-poi-5.svg',
-            suivant: '../svg/pin-poi-5-suivant.svg',
+            suivant: '../gif/pin-poi-5-suivant.gif',
             valide: '../svg/pin-poi-5-valide.svg'
         }
     },
     {
+        id: 'poi6',
         name: 'POI 6',
         coords: [43.093985, 5.892913],
         icons: {
             neutre: '../svg/pin-poi-6.svg',
-            suivant: '../svg/pin-poi-6-suivant.svg',
+            suivant: '../gif/pin-poi-6-suivant.gif',
             valide: '../svg/pin-poi-6-valide.svg'
         }
     }
@@ -235,6 +242,7 @@ if (!window.location.search.includes('emulateGPS')) {
   navigator.geolocation.getCurrentPosition(function(position) {
       if (localStorage.getItem('poi6_valid') === 'true') {
           centerOnFinalView();
+          return;
       }
       const userLat = position.coords.latitude;
       const userLng = position.coords.longitude;
@@ -242,26 +250,33 @@ if (!window.location.search.includes('emulateGPS')) {
       window.lastUserLng = userLng;
       // Affiche la position de l'utilisateur avec taille dynamique
       addUserMarker(userLat, userLng, reducedIcons);
-      // Suppression du bindPopup pour ne plus afficher de popup sur la position utilisateur
       // Vérifie la proximité avec le POI de l'étape
       const poi = pois[etape - 1];
       const dist = getDistance(userLat, userLng, poi.coords[0], poi.coords[1]);
       // Empêche la redirection si le POI a déjà été validé
       if (dist < 3) {
-          if (etape === 1 && localStorage.getItem('poi1_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 2 && localStorage.getItem('poi2_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 3 && localStorage.getItem('poi3a_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 4 && localStorage.getItem('poi3b_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 5 && localStorage.getItem('poi4_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 6 && localStorage.getItem('poi5_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
-          } else if (etape === 7 && localStorage.getItem('poi6_valid') !== 'true') {
-              window.location.href = `question-poi${etape}.html`;
+          const questionPages = [
+              'question-poi1.html',
+              'question-poi2.html',
+              'question-poi3a.html',
+              'question-poi3b.html',
+              'question-poi4.html',
+              'question-poi5.html',
+              'question-poi6.html'
+          ];
+          const validKeys = [
+              'poi1_valid',
+              'poi2_valid',
+              'poi3a_valid',
+              'poi3b_valid',
+              'poi4_valid',
+              'poi5_valid',
+              'poi6_valid'
+          ];
+          if (localStorage.getItem(validKeys[etape-1]) !== 'true') {
+              const pinId = pois[etape-1].id.replace('poi','');
+              shakePinAndRedirect(pinId, questionPages[etape-1], '../audio/son.mp3');
+              return;
           }
       }
       // Détermination dynamique de l'étape à valider (le premier POI non validé)
@@ -278,7 +293,6 @@ if (!window.location.search.includes('emulateGPS')) {
       if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
       const nextPoi = pois[nextPoiIndex];
       const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
-      // Redirige vers la question du prochain POI non validé si l'utilisateur est à proximité
       if (nextDist < 3 && nextPoiIndex < pois.length - 1) {
           const questionPages = [
               'question-poi1.html',
@@ -289,12 +303,12 @@ if (!window.location.search.includes('emulateGPS')) {
               'question-poi5.html',
               'question-poi6.html'
           ];
-          window.location.href = questionPages[nextPoiIndex];
+          const pinId = nextPoi.id.replace('poi', '');
+          shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
       } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
-          // Si on est sur le dernier POI et qu'il n'est pas validé, on autorise la redirection
-          window.location.href = 'question-poi6.html';
+          const pinId = nextPoi.id.replace('poi', '');
+          shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
       } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
-          // Si le POI 6 est validé, on centre la carte sur la vue finale demandée
           map.setView([43.094526056316866, 5.8933725276797215], 18);
       }
   }, erreur);
@@ -386,5 +400,37 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Fonction shakePinAndRedirect
+function shakePinAndRedirect(poiId, redirectUrl, soundUrl) {
+  // Sélectionne le marker correspondant au pin-poi-X-suivant.svg
+  const markerImg = Array.from(document.querySelectorAll('img.leaflet-marker-icon')).find(img => img.src.includes(`pin-poi-${poiId}-suivant.gif`));
+  if (markerImg) {
+    // Remplace temporairement le SVG par le GIF animé
+    const originalSrc = markerImg.src;
+    // Gestion du nom du GIF (cas particulier pour le 6)
+    let gifName;
+    if (poiId === '1') gifName = 'pin-poi-1-suivant-animation.gif';
+    else if (poiId === '2') gifName = 'pin-poi-2-suivant-animation.gif';
+    else if (poiId === '3a') gifName = 'pin-poi-3a-suivant-animation.gif';
+    else if (poiId === '3b') gifName = 'pin-poi-3b-suivant-animation.gif';
+    else if (poiId === '4') gifName = 'pin-poi-4-suivant-animation.gif';
+    else if (poiId === '5') gifName = 'pin-poi-5-suivant-animation.gif';
+    else if (poiId === '6') gifName = 'pin-poi-6-suivant-animation.gif';
+    else gifName = `pin-poi-${poiId}-suivant-animation.gif`;
+    markerImg.src = `../gif/${gifName}`;
+    markerImg.offsetHeight; // force reflow
+    if (soundUrl) {
+      const audio = new Audio(soundUrl);
+      audio.play();
+    }
+    setTimeout(() => {
+      markerImg.src = originalSrc;
+      window.location.href = redirectUrl;
+    }, 3000);
+  } else {
+    window.location.href = redirectUrl;
+  }
+}
 
 

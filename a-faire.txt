@@ -1,0 +1,2 @@
+Transition entre les pages cercle grandi → cercle bordure qui se referme 
+Animation déplacement de la carte après la redirection de réponse-poiX.html vers map.html

@@ -16,7 +16,7 @@ function lockVideoIfNotValidated(poiNumber) {
         if (!overlay) {
           overlay = document.createElement('div');
           overlay.className = 'video-lock-overlay';
-          overlay.innerHTML = '<span>Débloquez cette vidéo en répondant au POI !</span>';
+          overlay.innerHTML = '<span>Débloquez cette vidéo en visitant le point d\'intérêt !</span>';
           Object.assign(overlay.style, {
             position: 'absolute',
             top: 0,
@@ -30,7 +30,8 @@ function lockVideoIfNotValidated(poiNumber) {
             justifyContent: 'center',
             fontSize: '1.2em',
             borderRadius: '15px',
-            zIndex: 2
+            zIndex: 2,
+            padding: '20px',
           });
           video.parentElement.style.position = 'relative';
           video.parentElement.appendChild(overlay);
@@ -97,7 +98,7 @@ function lockPhotoIfNotValidated(poiNumber) {
         if (!overlay) {
           overlay = document.createElement('div');
           overlay.className = 'photo-lock-overlay';
-          overlay.innerHTML = '<span>Débloquez cette photo 360° en répondant au POI !</span>';
+          overlay.innerHTML = '<span>Débloquez cette photo 360° en visitant le point d\'intérêt !</span>';
           Object.assign(overlay.style, {
             position: 'absolute',
             top: 0,
@@ -112,7 +113,8 @@ function lockPhotoIfNotValidated(poiNumber) {
             fontSize: '1.2em',
             borderRadius: '15px',
             zIndex: 2,
-            pointerEvents: 'auto'
+            pointerEvents: 'auto',
+            padding: '20px'
           });
           iframe.parentElement.style.position = 'relative';
           iframe.parentElement.appendChild(overlay);

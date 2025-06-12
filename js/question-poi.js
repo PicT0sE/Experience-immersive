@@ -33,9 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
           button.style.fontFamily = "'Kufam', sans-serif";
           button.style.fontSize = '16px';
           button.style.fontWeight = '700';
-          setTimeout(() => {
+          // Lecture du son de validation puis redirection
+          const audio = new Audio('../audio/validation.mp3');
+          audio.play().catch(() => {
+            // Si la lecture échoue (ex: autoplay bloqué), on redirige quand même après 1s
+            setTimeout(() => {
+              if (reponsePage) window.location.href = reponsePage;
+            }, 1000);
+          });
+          audio.addEventListener('ended', () => {
             if (reponsePage) window.location.href = reponsePage;
-          }, 1000); // Redirection après 0.5 secondes
+          });
         } else {
           // Ajout de l'effet shake sur la question-card 
           const questionCard = document.querySelector('.question-card');

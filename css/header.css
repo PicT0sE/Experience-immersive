@@ -6,18 +6,18 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 70px; /* Ajuste selon la hauteur de ton header */
+  height: 100px; /* Ajuste selon la hauteur de ton header */
   z-index: 1999;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
 }
 
 .navbar {
   display: flex;
   align-content: center;
   justify-content: center;
-  padding: 15px;
-  margin: 15px auto; /* Centrage horizontal, margin modifiable */
+  padding: var(--ecart) var(--ecart) var(--ecart) 17.5px; /* Ajuste le padding pour centrer le contenu */
+  margin: var(--ecart) auto; /* Centrage horizontal, margin modifiable */
   border-radius: 15px;
   position: fixed;
   top: 0;
@@ -36,8 +36,8 @@
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 47.5px;
+  height: 47.5px;
   /* margin: 0 -5px 0 5px; Ajustement pour centrer le logo */
   flex-shrink: 0; /* Empêche le logo de rétrécir */
 }
@@ -49,7 +49,7 @@
 
 .title-container {
   flex-grow: 1;
-  margin-left: -7.5px;
+  margin-left: -2.5px;
 }
 
 .subtitle {
@@ -69,8 +69,8 @@
 }
 
 .burger-menu img {
-  width: 45px;
-  height: 45px;
+  width: 47.5px;
+  height: 47.5px;
 }
 
 /* =====================
@@ -97,14 +97,21 @@
 
 .menu-content {
   text-align: center;
-  width: 80%;
 }
 
 .menu-content ul {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--ecart);
   list-style: none;
+}
+
+
+
+.menu-content li {
+  margin: 0;
+  padding: var(--ecart) calc(var(--ecart) * 3.5);
+  width: calc(100%);
 }
 
 .menu-content a {
@@ -115,18 +122,19 @@
 }
 
 .close-menu {
+  height: 30px;
+  width: 30px;
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 3rem;
+  top: var(--ecart);
+  right: var(--ecart);
   background: none;
   border: none;
-  color: var(--white-color);
   cursor: pointer;
 }
 
-.menu-list a {
-  line-height: 25px;
+.close-menu img {
+  width: 100%;
+  height: 100%;
 }
 
 .menu-item {
@@ -137,34 +145,26 @@
   border-radius: var(--border-radius);
   border: var(--border);
   background: var(--principale, #5A79F9);
-  padding: var(--padding); /* Pour que le contenu ne touche pas les bords */
+  padding: var(--ecart); /* Pour que le contenu ne touche pas les bords */
   margin: 0; /* Pour éviter marges par défaut */
-}
-
-.menu-item-carte a {
-  color: var(--white-color); 
 }
 
 .menu-item-videos {
   border-radius: var(--border-radius);
   border: var(--border);
   background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
-  padding: var(--padding); /* Pour que le contenu ne touche pas les bords */
+  padding: var(--ecart); /* Pour que le contenu ne touche pas les bords */
   margin: 0; /* Pour éviter marges par défaut */
-}
-
-.menu-item-videos a {
-  line-height: normal;
 }
 
 .menu-item-langues {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--ecart);
   border-radius: var(--border-radius);
   border: var(--border);
   background: var(--white-color, #5A79F9);
-  padding: var(--padding);  /* Pour que le contenu ne touche pas les bords */
+  padding: var(--ecart);  /* Pour que le contenu ne touche pas les bords */
   margin: 0; /* Pour éviter marges par défaut */
 }
 
@@ -177,7 +177,7 @@
    ===================== */
 .langues-images {
   display: flex;
-  gap: 15px; /* espace entre les images */
+  gap: var(--ecart); /* espace entre les images */
   justify-content: center; /* centre les images sous le lien */
 }
 
@@ -195,7 +195,7 @@
 
 .langues-images img.selected {
   box-shadow: 0 0 10px 0px #5a79f9, 0 8px 8px 0 rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
+  border-radius: 10px;
   z-index: 1;
   opacity: 1; /* opacité max pour la langue sélectionnée */
 }
@@ -205,10 +205,11 @@
    ===================== */
 .mentions-legales {
   position: absolute;
-  bottom: 20px;
+  bottom: var(--ecart);
   left: 50%;
   transform: translateX(-50%);
-  font-size: 12px !important;  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px !important;  
+  color: rgba(255, 255, 255, 0.7);
   text-align: center;
   text-decoration: underline !important;
   cursor: pointer;

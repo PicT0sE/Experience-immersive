@@ -4,17 +4,23 @@ const menuOverlay = document.querySelector(".menu-overlay");
 const closeMenuBtn = document.querySelector(".close-menu");
 const ctaBtn = document.querySelector(".cta-btn");
 
-burgerMenu.addEventListener("click", () => {
-  menuOverlay.classList.add("active");
-  menuOverlay.setAttribute("aria-hidden", "false");
-  ctaBtn.classList.add("hidden");
-});
+if (burgerMenu && menuOverlay) {
+  burgerMenu.addEventListener("click", () => {
+    menuOverlay.classList.add("active");
+    menuOverlay.setAttribute("aria-hidden", "false");
+    if (ctaBtn) ctaBtn.classList.add("hidden");
+  });
+}
 
-closeMenuBtn.addEventListener("click", () => {
-  menuOverlay.classList.remove("active");
-  menuOverlay.setAttribute("aria-hidden", "true");
-  ctaBtn.classList.remove("hidden");
-});
+if (closeMenuBtn && menuOverlay) {
+  closeMenuBtn.addEventListener("click", () => {
+    // Retire le focus du bouton avant de masquer le menu
+    closeMenuBtn.blur();
+    menuOverlay.classList.remove("active");
+    menuOverlay.setAttribute("aria-hidden", "true");
+    if (ctaBtn) ctaBtn.classList.remove("hidden");
+  });
+}
 
 // --- Gestion de la sélection de la langue (opacité 100%) ---
 function setupLangueSelection() {

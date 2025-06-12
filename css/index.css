@@ -19,17 +19,17 @@
 .cta-btn {
   display: flex;
   flex-direction: row;
-  gap:20px;
+  gap:var(--ecart);
   align-items: center;
+  justify-content: center;
 
   position: fixed;
-  bottom: 10px;
-  height:60px;
-  padding: 0 20px;
-  border-radius: 15px;
+  bottom: var(--ecart); right:var(--ecart);
+  height: 60px;
+  padding: 0 calc(var(--ecart) * 1.4);
+  border-radius: var(--border-radius);
   box-sizing: border-box;
-  right:10px;
-
+  
   font-family: 'Kufam', sans-serif;
   font-size: 24px;
   font-style: normal;
@@ -42,7 +42,6 @@
   cursor: pointer;
   z-index: 1001;
   box-sizing: border-box; /* Important pour inclure le padding dans la largeur */
-
 }
 
 .cta-btn .btn-arrow {
@@ -72,12 +71,12 @@
 
 .cta-btn-prev {
   position: fixed;
-  bottom: 10px;
-  left: 10px;
+  bottom: var(--ecart);
+  left: var(--ecart);
   height: 60px;
   width: 60px;
   min-width: 0;
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   box-sizing: border-box;
 
   background: #fff; /* Fond blanc */
@@ -112,8 +111,8 @@
 .info-card{
   background-color: var(--white-color);
   border-radius: 15px; /* Retour à un arrondi classique */
-  padding: 20px 20px 30px 20px; /* Ajout de padding pour un espacement intérieur */
-  margin: 10px 15px;
+  padding: calc(var(--ecart) * 1.5); /* Ajout de padding pour un espacement intérieur */
+  margin: 10px var(--ecart);
   text-align: left;
   box-shadow: 0 0 15px 3px rgba(74, 111, 255, 0.3);
   font-family: 'Kufam', sans-serif;
@@ -121,7 +120,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--ecart);
   max-width: 800px; /* Limite la largeur maximale de la carte */
 }
 
@@ -159,14 +158,14 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  gap: 20px;
+  gap: var(--ecart);
 }
 
 .info-3-header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: var(--ecart);
 }
 
 .main-content {

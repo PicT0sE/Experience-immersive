@@ -9,8 +9,8 @@
   --btn-gradient-end: #EBC333;
   --border-color: rgba(255, 255, 255, 1);
   --border: 3px solid var(--border-color);
-  --padding: 20px;
-  --border-radius: 20px;
+  --ecart: 15px;
+  --border-radius: 15px;
 }
 
 * {
@@ -35,13 +35,12 @@ html, body {
   padding-top: 55px; /* Ajoute un espace pour que le contenu ne passe pas sous la navbar */
 }
 
-
-
 h1 {
   font-size: 24px;
   color: var(--white-color);
   font-weight: 700;
   text-align: left;
+  font-family: 'Kufam', sans-serif;
 }
 
 h2 {
@@ -49,6 +48,15 @@ h2 {
   color: var(--white-color);
   font-weight: 700;
   text-align: left;
+  font-family: 'Kufam', sans-serif;
+}
+
+h3 {
+  font-size: 18px;
+  color: var(--white-color);
+  font-weight: 700;
+  text-align: left;
+  font-family: 'Kufam', sans-serif;
 }
 
 p {
