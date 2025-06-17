@@ -259,6 +259,10 @@ if (!window.location.search.includes('emulateGPS')) {
       const poi = pois[etape - 1];
       const dist = getDistance(userLat, userLng, poi.coords[0], poi.coords[1]);
       // Empêche la redirection si le POI a déjà été validé
+      if (localStorage.getItem(validKeys[etape-1]) === 'true') {
+          // Si déjà validé, ne rien faire et sortir
+          return;
+      }
       if (dist < 10) { // Rayon augmenté à 10 mètres
           const questionPages = [
               'question-poi1.html',
