@@ -221,7 +221,12 @@ pois.forEach((poi, i) => {
 });
 
 // --- Affichage de la position utilisateur avec taille dynamique ---
+let userMarker = null;
+
 function addUserMarker(userLat, userLng, reduced = false) {
+    if (userMarker) {
+        map.removeLayer(userMarker);
+    }
     const size = reduced ? 75 : 150;
     const userIcon = L.icon({
         iconUrl: '../svg/user-position.svg',
@@ -229,7 +234,7 @@ function addUserMarker(userLat, userLng, reduced = false) {
         iconAnchor: [size / 2, size / 2],
         popupAnchor: [0, -size / 2]
     });
-    L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
+    userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
 }
 
 // --- Fonction pour centrer sur la vue finale ---
