@@ -298,7 +298,7 @@ if (!window.location.search.includes('emulateGPS')) {
       if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
       const nextPoi = pois[nextPoiIndex];
       const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
-      if (nextDist < 10 && nextPoiIndex < pois.length - 1) {
+      if (nextDist < 5 && nextPoiIndex < pois.length - 1) {
           const questionPages = [
               'question-poi1.html',
               'question-poi2.html',
@@ -310,10 +310,10 @@ if (!window.location.search.includes('emulateGPS')) {
           ];
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
-      } else if (nextDist < 10 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
-      } else if (nextDist < 10 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
           map.setView([43.094526056316866, 5.8933725276797215], 18);
       }
   }, erreur, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
