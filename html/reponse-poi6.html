@@ -16,7 +16,7 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 6</p>
+        <p class="poi-number">Info fossé !</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
           <p>De quoi étaient remplies les douves du fort Napoléon ?</p>
@@ -31,7 +31,9 @@
           id="myVideo"
           width="100%" 
           height="auto"
-          controls  poster="../img/Minia POI 6.jpg" 
+          controls  
+          autoplay
+          poster="../img/Minia POI 6.jpg" 
           preload="metadata" 
         >
           <source src="../vidéos/Poi 6.mp4" type="video/mp4" />
@@ -43,5 +45,10 @@
   <a href="felicitations.html" class="cta-btn continue-btn"><h2>Terminer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 5 et POI 6) avant retour à la carte
+    localStorage.setItem('previousMapView', JSON.stringify([(43.094441 + 43.093985) / 2, (5.892704 + 5.892913) / 2]));
+  </script>
 </body>
 </html>

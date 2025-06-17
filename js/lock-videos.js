@@ -190,3 +190,41 @@ window.addEventListener('DOMContentLoaded', function() {
   setupVideoUnlockListeners();
   setupPhotoUnlockListeners();
 });
+
+// Ajoute l'icône plein écran au centre des vidéos et gère le mode plein écran
+window.addEventListener('DOMContentLoaded', function () {
+  // Pour chaque vidéo sur la page de réponse
+  document.querySelectorAll('.video-player-container video').forEach(function (video) {
+    // Crée le bouton plein écran
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.className = 'fullscreen-btn';
+    fullscreenBtn.setAttribute('aria-label', 'Plein écran');
+    fullscreenBtn.style.position = 'absolute';
+    fullscreenBtn.style.top = '50%';
+    fullscreenBtn.style.left = '50%';
+    fullscreenBtn.style.transform = 'translate(-50%, -50%)';
+    fullscreenBtn.style.background = 'rgba(0,0,0,0.4)';
+    fullscreenBtn.style.border = 'none';
+    fullscreenBtn.style.borderRadius = '50%';
+    fullscreenBtn.style.padding = '15px';
+    fullscreenBtn.style.cursor = 'pointer';
+    fullscreenBtn.style.zIndex = '3';
+    fullscreenBtn.innerHTML = '<img src="../svg/plein-ecran.svg" alt="Plein écran" style="width:40px;height:40px;">';
+
+    // Place le bouton dans le conteneur parent
+    const container = video.parentElement;
+    container.style.position = 'relative';
+    container.appendChild(fullscreenBtn);
+
+    fullscreenBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    });
+  });
+});

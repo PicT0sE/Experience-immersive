@@ -12,25 +12,27 @@
   <link rel="icon" href="../svg/favicon.svg" type="image/svg+xml" />
 </head>
 <body>
+  <div id="vignette-overlay"></div>
   <div id="header-container"></div>
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 2</p>
+        <p class="poi-number">Question de point de vue</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>Quelle est la raison principale de la construction de ce fort ?</p>
+          <p>Pourquoi un fort a t il été construit ici ?</p>
         </div>
         <div class="options-container">
           <button class="option-btn" data-correct="false"><p>Le fort a été construit pour servir de point de réapprovisionnement</p></button>
-          <button class="option-btn" data-correct="false"><p>C’est un fort qui sert de stockage d’armes et canons</p></button>
-          <button class="option-btn" data-correct="true"><p>Il a été construit pour sa vue à 360° sur la rade de Toulon</p></button>
-          <button class="option-btn" data-correct="false"><p>Napoléon avait envie d’avoir un fort à son nom</p></button>
+          <button class="option-btn" data-correct="false"><p>Le fort servait à stocker des armes et des canons</p></button>
+          <button class="option-btn" data-correct="true"><p>Il a été construit pour sa vue complète sur la rade de Toulon</p></button>
+          <button class="option-btn" data-correct="false"><p>Napoléon Bonaparte voulait avoir un fort à son nom</p></button>
         </div>
       </div>
   </main>
 
   <script src="../js/include-header.js"></script>
   <script src="../js/question-poi.js"></script>
+  <script src="../js/vignette.js"></script>
 </body>
 </html>

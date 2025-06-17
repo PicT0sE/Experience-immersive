@@ -15,10 +15,10 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 1</p>
+        <p class="poi-number">L'entrée du fort</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>En 1793 dans quel camp politique se trouvait la ville de Toulon ?</p>
+          <p>En 1793, par qui était controlée la ville de Toulon ?</p>
         </div>
         <div class="options-container">
           <button class="reponse-btn" data-correct="true"><p>Les Royalistes</p></button>
@@ -30,7 +30,9 @@
           id="myVideo"
           width="100%" 
           height="auto"
-          controls  poster="../img/Minia POI 1.jpg" 
+          controls  
+          autoplay
+          poster="../img/Minia POI 1.jpg" 
           preload="metadata" 
         >
           <source src="../vidéos/Poi 1.mp4" type="video/mp4" />
@@ -42,5 +44,11 @@
     <a href="map.html" class="cta-btn continue-btn"><h2>Continuer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 0 et POI 1) avant retour à la carte
+    // Pour le tout premier déplacement, on part du POI 1 lui-même
+    localStorage.setItem('previousMapView', JSON.stringify([43.094023, 5.8939384]));
+  </script>
 </body>
 </html>

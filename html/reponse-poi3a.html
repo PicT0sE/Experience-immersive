@@ -15,13 +15,13 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 3a</p>
+        <p class="poi-number">La demi lune !</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>Comment s'appellent les mottes de terre qui entourent le fort ?</p>
+          <p>Comment s'appellent les talus de fortification qui entourent le fort ?</p>
         </div>
         <div class="options-container">
-          <button class="reponse-btn" data-correct="true"><p>Les glacis</p></button>
+          <button class="reponse-btn" data-correct="true"><p>Des glacis</p></button>
         </div>
       </div>
 
@@ -30,7 +30,9 @@
           id="myVideo"
           width="100%" 
           height="auto"
-          controls  poster="../img/Minia POI 3A.png" 
+          controls  
+          autoplay
+          poster="../img/Minia POI 3A.png" 
           preload="metadata" 
         >
           <source src="../vidéos/Poi 3A.mp4" type="video/mp4" />
@@ -42,5 +44,10 @@
   <a href="map.html" class="cta-btn continue-btn"><h2>Continuer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 2 et POI 3a) avant retour à la carte
+    localStorage.setItem('previousMapView', JSON.stringify([(43.094578 + 43.094631) / 2, (5.894156 + 5.893479) / 2]));
+  </script>
 </body>
 </html>

@@ -171,7 +171,7 @@ const pois = [
         // Cas particulier : après validation du POI 4, nextPoiIndex = 5, donc prev = 4, curr = 5
         const prev = pois[nextPoiIndex - 1].coords;
         const curr = pois[nextPoiIndex].coords;
-        const lat = ((prev[0] + curr[0]) / 2) - 0.0003;
+        const lat = ((prev[0] + curr[0]) / 2);
         const lng = (prev[1] + curr[1]) / 2;
         map.setView([lat, lng], 19);
         map.panBy([0, -window.innerHeight * 0.18]);
@@ -234,7 +234,7 @@ function addUserMarker(userLat, userLng, reduced = false) {
 
 // --- Fonction pour centrer sur la vue finale ---
 function centerOnFinalView() {
-    map.setView([43.094526056316866, 5.8933725276797215], 18);
+    map.setView([43.094306056316866, 5.8934325276797215], 18);
 }
 
 // --- Détection de proximité et redirection automatique ---
@@ -275,7 +275,7 @@ if (!window.location.search.includes('emulateGPS')) {
           ];
           if (localStorage.getItem(validKeys[etape-1]) !== 'true') {
               const pinId = pois[etape-1].id.replace('poi','');
-              shakePinAndRedirect(pinId, questionPages[etape-1], '../audio/son.mp3');
+              shakePinAndRedirect(pinId, questionPages[etape-1], '../audio/validation.mp3');
               return;
           }
       }
@@ -426,11 +426,110 @@ function shakePinAndRedirect(poiId, redirectUrl, soundUrl) {
     }
     setTimeout(() => {
       markerImg.src = originalSrc;
-      window.location.href = redirectUrl;
+      playExitVignetteAndRedirect(redirectUrl);
     }, 3000);
   } else {
-    window.location.href = redirectUrl;
+    playExitVignetteAndRedirect(redirectUrl);
   }
 }
+
+// Animation d'entrée : simple fondu
+window.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('vignette-overlay');
+  if (overlay) {
+    setTimeout(() => {
+      overlay.classList.add('hide');
+      overlay.addEventListener('transitionend', function() {
+        overlay.parentNode.removeChild(overlay);
+      });
+    }, 200); // petit délai pour éviter un flash
+  }
+});
+
+// Fonction pour lancer l'animation de sortie (trou circulaire)
+function playExitVignetteAndRedirect(url) {
+  let overlay = document.getElementById('vignette-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'vignette-overlay';
+    document.body.appendChild(overlay);
+  }
+  overlay.className = 'hole';
+  overlay.style.opacity = 1;
+  overlay.addEventListener('animationend', function() {
+    window.location.href = url;
+  }, { once: true });
+}
+
+// Supprimer l'overlay après l'animation
+window.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('vignette-overlay');
+  if (overlay) {
+    overlay.addEventListener('animationend', function() {
+      overlay.parentNode.removeChild(overlay);
+    });
+  }
+});
+
+// Fonction utilitaire pour calculer la position cible (vue actuelle) selon la progression
+function getCurrentMapView() {
+    const order = [
+        'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid'
+    ];
+    let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+    if (nextPoiIndex === -1) nextPoiIndex = pois.length;
+    let targetCenter = null;
+    let targetZoom = 19;
+    if (nextPoiIndex === 0) {
+        targetCenter = pois[0].coords;
+    } else if (nextPoiIndex > 0 && nextPoiIndex < pois.length) {
+        const prev = pois[nextPoiIndex - 1].coords;
+        const curr = pois[nextPoiIndex].coords;
+        const lat = ((prev[0] + curr[0]) / 2);
+        const lng = (prev[1] + curr[1]) / 2;
+        targetCenter = [lat, lng];
+    } else if (nextPoiIndex === pois.length) {
+        // Tous les POI validés : ne recentre pas
+        targetCenter = null;
+    }
+    return { center: targetCenter, zoom: targetZoom };
+}
+
+// --- Animation de translation de la carte après l'animation vignette ---
+(function() {
+    const mapView = getCurrentMapView();
+    if (!mapView.center) return;
+    // Cherche la position de départ dans le localStorage
+    const prevView = localStorage.getItem('previousMapView');
+    let startCenter = prevView ? JSON.parse(prevView) : mapView.center;
+    map.setView(startCenter, mapView.zoom, { animate: false });
+    // Après l'animation vignette (2s), anime la translation
+    setTimeout(() => {
+        map.panTo(mapView.center, { animate: true, duration: 1 });
+    }, 2000);
+    // Nettoie la valeur pour ne pas rejouer l'animation
+    localStorage.removeItem('previousMapView');
+})();
+
+// --- Personnalisation dynamique du texte du bouton suivant ---
+(function() {
+    const suivantBtnH3 = document.querySelector('.suivant-btn-container h3');
+    if (!suivantBtnH3) return;
+    const order = [
+        'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid'
+    ];
+    let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+    let customTexts = [
+        "Déplacez-vous vers l'entrée du fort !",
+        "Un panorama vous attend au deuxième point d'intérêt !",
+        "Allez voir l'étrange sculpture le long du chemin !",
+        "Direction le bas du chemin !",
+        "Remontez le chemin, et découvrez les secrets de l'architecture du fort !",
+        "Un autre fort se cache derrière les arbres !",
+        "Continuez votre route et décendez les escaliers pour accéder au fossé !",
+    ];
+    if (nextPoiIndex === -1 || nextPoiIndex >= customTexts.length) nextPoiIndex = customTexts.length - 1;
+    suivantBtnH3.textContent = customTexts[nextPoiIndex];
+})();
 
 

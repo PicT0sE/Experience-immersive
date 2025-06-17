@@ -16,7 +16,7 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 4</p>
+        <p class="poi-number">Question d'architecture</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
           <p>Vu du ciel, de quelle forme est le Fort Napoléon ?</p>
@@ -31,7 +31,9 @@
           id="myVideo"
           width="100%" 
           height="auto"
-          controls  poster="../img/Minia POI 4.jpg" 
+          controls  
+          autoplay
+          poster="../img/Minia POI 4.jpg" 
           preload="metadata" 
         >
           <source src="../vidéos/Poi 4.mp4" type="video/mp4" />
@@ -43,5 +45,10 @@
   <a href="map.html" class="cta-btn continue-btn"><h2>Continuer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 3b et POI 4) avant retour à la carte
+    localStorage.setItem('previousMapView', JSON.stringify([(43.094851 + 43.094843) / 2, (5.893623 + 5.892855) / 2]));
+  </script>
 </body>
 </html>

@@ -16,13 +16,13 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 2</p>
+        <p class="poi-number">Question de point de vue</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>Quelle est la raison principale de la construction de ce fort ?</p>
+          <p>Pourquoi un fort a t il été construit ici ?</p>
         </div>
         <div class="options-container">
-          <button class="reponse-btn" data-correct="true"><p>Il a été construit pour sa vue à 360° sur la rade de Toulon</p></button>
+          <button class="reponse-btn" data-correct="true"><p>Il a été construit pour sa vue complète sur la rade de Toulon</p></button>
         </div>
       </div>
 
@@ -41,5 +41,10 @@
   <a href="map.html" class="cta-btn continue-btn"><h2>Continuer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 1 et POI 2) avant retour à la carte
+    localStorage.setItem('previousMapView', JSON.stringify([(43.094023 + 43.094578) / 2, (5.8939384 + 5.894156) / 2]));
+  </script>
 </body>
 </html>

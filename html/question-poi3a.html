@@ -11,25 +11,27 @@
   <link rel="icon" href="../svg/favicon.svg" type="image/svg+xml" />
 </head>
 <body>
+  <div id="vignette-overlay"></div>
   <div id="header-container"></div>
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 3a</p>
+        <p class="poi-number">La demi lune !</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>Comment s'appellent les mottes de terre qui entourent le fort ?</p>
+          <p>Comment s'appellent les talus de fortification qui entourent le fort ?</p>
         </div>
         <div class="options-container">
-          <button class="option-btn" data-correct="false"><p>Les buttes</p></button>
-          <button class="option-btn" data-correct="false"><p>Les pentes</p></button>
-          <button class="option-btn" data-correct="true"><p>Les glacis</p></button>
-          <button class="option-btn" data-correct="false"><p>Les cassis</p></button>
+          <button class="option-btn" data-correct="false"><p>Des buttes</p></button>
+          <button class="option-btn" data-correct="false"><p>Des pentes</p></button>
+          <button class="option-btn" data-correct="true"><p>Des glacis</p></button>
+          <button class="option-btn" data-correct="false"><p>Des cassis</p></button>
         </div>
       </div>
   </main>
 
   <script src="../js/include-header.js"></script>
   <script src="../js/question-poi.js"></script>
+  <script src="../js/vignette.js"></script>
 </body>
 </html>

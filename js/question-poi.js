@@ -36,11 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
           // Lecture du son de validation puis redirection
           const audio = new Audio('../audio/validation.mp3');
           audio.play().catch(() => {
-            // Si la lecture échoue (ex: autoplay bloqué), on redirige quand même après 1s
+            // Si la lecture échoue (ex: autoplay bloqué), on redirige quand même après 0.25s
             setTimeout(() => {
               if (reponsePage) window.location.href = reponsePage;
-            }, 1000);
+            }, 250);
           });
+          // Redirection après 1,25s, même si le son n'est pas fini
+          setTimeout(() => {
+            if (reponsePage) window.location.href = reponsePage;
+          }, 1250);
           audio.addEventListener('ended', () => {
             if (reponsePage) window.location.href = reponsePage;
           });

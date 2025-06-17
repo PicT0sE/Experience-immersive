@@ -16,10 +16,10 @@
 
   <main class="main-content">
       <div class="question-card">
-        <p class="poi-number">Point d'intérêt numéro 5</p>
+        <p class="poi-number">Tous ces forts ? C'est fort !</p>
         <div class="question-header">
           <img src="../svg/Mascotte.svg" alt="Mascotte" class="mascot-icon" /> 
-          <p>Comment s’appelle le système de communication entre les forts utilisant des drapeaux ?</p>
+          <p>Comment s'appelle le système de communication entre les forts utilisant des drapeaux ?</p>
         </div>
         <div class="options-container">
           <button class="reponse-btn" data-correct="true"><p>Le sémaphore</p></button>
@@ -41,5 +41,10 @@
   <a href="map.html" class="cta-btn continue-btn"><h2>Continuer la visite</h2></a>
 
   <script src="../js/include-header.js"></script>
+  <script src="../js/lock-videos.js"></script>
+  <script>
+    // Stocke la vue précédente (entre POI 4 et POI 5) avant retour à la carte
+    localStorage.setItem('previousMapView', JSON.stringify([(43.094843 + 43.094441) / 2, (5.892855 + 5.892704) / 2]));
+  </script>
 </body>
 </html>

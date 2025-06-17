@@ -1,0 +1,6 @@
+
+Ce projet est un projet étudiant réalisé dans le cadre d'une SAE (Situation d'Apprentissage et d'Évaluation), en collaboration avec le Département du Var.
+
+L'objectif de ce projet est de proposer une expérience immersive et interactive autour du Fort Napoléon, mêlant contenus numériques, jeu et découverte culturelle.
+
+Merci au Département du Var pour sa confiance et son accompagnement dans la réalisation de ce projet pédagogique.
