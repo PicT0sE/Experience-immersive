@@ -221,7 +221,7 @@ pois.forEach((poi, i) => {
 });
 
 // --- Affichage de la position utilisateur avec taille dynamique ---
-let userMarker = null; // Référence au marqueur utilisateur
+let userMarker = null; // Référence globale au marqueur utilisateur
 function addUserMarker(userLat, userLng, reduced = false) {
     const size = reduced ? 75 : 150;
     const userIcon = L.icon({
@@ -230,7 +230,7 @@ function addUserMarker(userLat, userLng, reduced = false) {
         iconAnchor: [size / 2, size / 2],
         popupAnchor: [0, -size / 2]
     });
-    // Supprime l'ancien marqueur s'il existe
+    // Supprime l'ancien marqueur si présent
     if (userMarker) {
         map.removeLayer(userMarker);
     }
@@ -269,9 +269,52 @@ if (!window.location.search.includes('emulateGPS')) {
               'question-poi5.html',
               'question-poi6.html'
           ];
-          if (localStorage.getItem(`poi${etape}_valid`) !== 'true') {
-              window.location.href = questionPages[etape - 1];
+          const validKeys = [
+              'poi1_valid',
+              'poi2_valid',
+              'poi3a_valid',
+              'poi3b_valid',
+              'poi4_valid',
+              'poi5_valid',
+              'poi6_valid'
+          ];
+          if (localStorage.getItem(validKeys[etape-1]) !== 'true') {
+              const pinId = pois[etape-1].id.replace('poi','');
+              shakePinAndRedirect(pinId, questionPages[etape-1], '../audio/validation.mp3');
+              return;
           }
+      }
+      // Détermination dynamique de l'étape à valider (le premier POI non validé)
+      const order = [
+          'poi1_valid',
+          'poi2_valid',
+          'poi3a_valid',
+          'poi3b_valid',
+          'poi4_valid',
+          'poi5_valid',
+          'poi6_valid'
+      ];
+      let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+      if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
+      const nextPoi = pois[nextPoiIndex];
+      const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
+      if (nextDist < 3 && nextPoiIndex < pois.length - 1) {
+          const questionPages = [
+              'question-poi1.html',
+              'question-poi2.html',
+              'question-poi3a.html',
+              'question-poi3b.html',
+              'question-poi4.html',
+              'question-poi5.html',
+              'question-poi6.html'
+          ];
+          const pinId = nextPoi.id.replace('poi', '');
+          shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
+      } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+          const pinId = nextPoi.id.replace('poi', '');
+          shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
+      } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+          map.setView([43.094526056316866, 5.8933725276797215], 18);
       }
   }, erreur, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
 }
