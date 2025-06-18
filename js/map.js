@@ -78,7 +78,7 @@ const pois = [
     {
         id: 'poi1',
         name: 'POI 1',
-        coords: [43.094023, 5.8939384],
+        coords: [43.094100, 5.8939784],
         icons: {
             neutre: '../svg/pin-poi-1.svg',
             suivant: '../gif/pin-poi-1-suivant.gif',
@@ -221,6 +221,7 @@ pois.forEach((poi, i) => {
 });
 
 // --- Affichage de la position utilisateur avec taille dynamique ---
+let userMarker = null; // Référence globale au marqueur utilisateur
 function addUserMarker(userLat, userLng, reduced = false) {
     const size = reduced ? 75 : 150;
     const userIcon = L.icon({
@@ -229,7 +230,11 @@ function addUserMarker(userLat, userLng, reduced = false) {
         iconAnchor: [size / 2, size / 2],
         popupAnchor: [0, -size / 2]
     });
-    L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
+    // Supprime l'ancien marqueur si présent
+    if (userMarker) {
+        map.removeLayer(userMarker);
+    }
+    userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
 }
 
 // --- Fonction pour centrer sur la vue finale ---
@@ -239,7 +244,7 @@ function centerOnFinalView() {
 
 // --- Détection de proximité et redirection automatique ---
 if (!window.location.search.includes('emulateGPS')) {
-  navigator.geolocation.getCurrentPosition(function(position) {
+  navigator.geolocation.watchPosition(function(position) {
       if (localStorage.getItem('poi6_valid') === 'true') {
           centerOnFinalView();
           return;
@@ -293,7 +298,7 @@ if (!window.location.search.includes('emulateGPS')) {
       if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
       const nextPoi = pois[nextPoiIndex];
       const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
-      if (nextDist < 3 && nextPoiIndex < pois.length - 1) {
+      if (nextDist < 5 && nextPoiIndex < pois.length - 1) {
           const questionPages = [
               'question-poi1.html',
               'question-poi2.html',
@@ -305,13 +310,13 @@ if (!window.location.search.includes('emulateGPS')) {
           ];
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
-      } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
-      } else if (nextDist < 3 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
           map.setView([43.094526056316866, 5.8933725276797215], 18);
       }
-  }, erreur);
+  }, erreur, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
 }
 
 // Quand la page de réponse d'un POI est atteinte, on marque l'étape comme validée
@@ -358,6 +363,16 @@ const customIcon = L.icon({
     iconAnchor: [75, 75], // centre de l'icône utilisateur
     popupAnchor: [0, -75]
 });
+
+// Ajout d'un style pour forcer le z-index du marqueur utilisateur au-dessus des POI
+const userMarkerStyle = document.createElement('style');
+userMarkerStyle.innerHTML = `
+  /* Sélecteur spécifique pour le user-position.svg */
+  .leaflet-marker-icon[src*="user-position.svg"] {
+    z-index: 4000 !important;
+  }
+`;
+document.head.appendChild(userMarkerStyle);
 
 // --- Fonction de calcul de distance (Haversine) ---
 function getDistance(lat1, lng1, lat2, lng2) {
