@@ -78,7 +78,7 @@ const pois = [
     {
         id: 'poi1',
         name: 'POI 1',
-        coords: [43.094100, 5.8939784],
+        coords: [43.09409, 5.89398],
         icons: {
             neutre: '../svg/pin-poi-1.svg',
             suivant: '../gif/pin-poi-1-suivant.gif',
@@ -128,7 +128,7 @@ const pois = [
     {
         id: 'poi5',
         name: 'POI 5',
-        coords: [43.094441, 5.892704],
+        coords: [43.09440, 5.892750],
         icons: {
             neutre: '../svg/pin-poi-5.svg',
             suivant: '../gif/pin-poi-5-suivant.gif',
@@ -146,6 +146,9 @@ const pois = [
         }
     }
 ];
+
+// Constante pour la distance minimale d'activation des POI
+const distMinActivation = 7.5;
 
 // --- Centrage dynamique de la carte selon l'étape ou la progression du parcours ---
 (function() {
@@ -223,7 +226,7 @@ pois.forEach((poi, i) => {
 // --- Affichage de la position utilisateur avec taille dynamique ---
 let userMarker = null; // Référence globale au marqueur utilisateur
 function addUserMarker(userLat, userLng, reduced = false) {
-    const size = reduced ? 75 : 150;
+    const size = reduced ? 75 : 125;
     const userIcon = L.icon({
         iconUrl: '../svg/user-position.svg',
         iconSize: [size, size],
@@ -259,7 +262,7 @@ if (!window.location.search.includes('emulateGPS')) {
       const poi = pois[etape - 1];
       const dist = getDistance(userLat, userLng, poi.coords[0], poi.coords[1]);
       // Empêche la redirection si le POI a déjà été validé
-      if (dist < 3) {
+      if (dist < distMinActivation) {
           const questionPages = [
               'question-poi1.html',
               'question-poi2.html',
@@ -298,7 +301,7 @@ if (!window.location.search.includes('emulateGPS')) {
       if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
       const nextPoi = pois[nextPoiIndex];
       const nextDist = getDistance(userLat, userLng, nextPoi.coords[0], nextPoi.coords[1]);
-      if (nextDist < 5 && nextPoiIndex < pois.length - 1) {
+      if (nextDist < distMinActivation && nextPoiIndex < pois.length - 1) {
           const questionPages = [
               'question-poi1.html',
               'question-poi2.html',
@@ -310,10 +313,10 @@ if (!window.location.search.includes('emulateGPS')) {
           ];
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
-      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+      } else if (nextDist < distMinActivation && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
           const pinId = nextPoi.id.replace('poi', '');
           shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
-      } else if (nextDist < 5 && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+      } else if (nextDist < distMinActivation && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
           map.setView([43.094526056316866, 5.8933725276797215], 18);
       }
   }, erreur, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
@@ -359,9 +362,9 @@ if (window.location.pathname.includes('reponse-poi6.html')) {
 // Icône personnalisée pour la position utilisateur (corrige l'erreur customIcon)
 const customIcon = L.icon({
     iconUrl: '../svg/user-position.svg',
-    iconSize: [150, 150],
-    iconAnchor: [75, 75], // centre de l'icône utilisateur
-    popupAnchor: [0, -75]
+    iconSize: [100, 100],
+    iconAnchor: [50, 50], // centre de l'icône utilisateur
+    popupAnchor: [0, -50]
 });
 
 // Ajout d'un style pour forcer le z-index du marqueur utilisateur au-dessus des POI
@@ -546,5 +549,120 @@ function getCurrentMapView() {
     if (nextPoiIndex === -1 || nextPoiIndex >= customTexts.length) nextPoiIndex = customTexts.length - 1;
     suivantBtnH3.textContent = customTexts[nextPoiIndex];
 })();
+
+// --- Mode test : déplacement de la position utilisateur avec les flèches du clavier ---
+if (window.location.search.includes('emulateGPS')) {
+    // Position de départ : coordonnées du dernier POI validé ou du premier si aucun
+    let simulatedLat, simulatedLng;
+    (function() {
+        const order = [
+            'poi1_valid', 'poi2_valid', 'poi3a_valid', 'poi3b_valid', 'poi4_valid', 'poi5_valid', 'poi6_valid'
+        ];
+        let lastValidIndex = -1;
+        for (let i = 0; i < order.length; i++) {
+            if (localStorage.getItem(order[i]) === 'true') {
+                lastValidIndex = i;
+            } else {
+                break;
+            }
+        }
+        if (lastValidIndex >= 0) {
+            simulatedLat = pois[lastValidIndex].coords[0];
+            simulatedLng = pois[lastValidIndex].coords[1];
+        } else {
+            simulatedLat = 43.09400; // Coordonnées du user-position.svg lorsqu'aucun POI n'est validé
+            simulatedLng = 5.89420;
+        }
+    })();
+    const step = 0.00003; // Ajuste la valeur pour la vitesse de déplacement
+    // Affiche la position initiale
+    addUserMarker(simulatedLat, simulatedLng, reducedIcons);
+    // Fonction de mise à jour de la position simulée
+    function updateSimulatedPosition() {
+        window.lastUserLat = simulatedLat;
+        window.lastUserLng = simulatedLng;
+        addUserMarker(simulatedLat, simulatedLng, reducedIcons);
+        // --- Copie la logique de proximité/redirection ---
+        const poi = pois[etape - 1];
+        const dist = getDistance(simulatedLat, simulatedLng, poi.coords[0], poi.coords[1]);
+        if (dist < 10) {
+            const questionPages = [
+                'question-poi1.html',
+                'question-poi2.html',
+                'question-poi3a.html',
+                'question-poi3b.html',
+                'question-poi4.html',
+                'question-poi5.html',
+                'question-poi6.html'
+            ];
+            const validKeys = [
+                'poi1_valid',
+                'poi2_valid',
+                'poi3a_valid',
+                'poi3b_valid',
+                'poi4_valid',
+                'poi5_valid',
+                'poi6_valid'
+            ];
+            if (localStorage.getItem(validKeys[etape-1]) !== 'true') {
+                const pinId = pois[etape-1].id.replace('poi','');
+                shakePinAndRedirect(pinId, questionPages[etape-1], '../audio/validation.mp3');
+                return;
+            }
+        }
+        // Détermination dynamique de l'étape à valider (le premier POI non validé)
+        const order = [
+            'poi1_valid',
+            'poi2_valid',
+            'poi3a_valid',
+            'poi3b_valid',
+            'poi4_valid',
+            'poi5_valid',
+            'poi6_valid'
+        ];
+        let nextPoiIndex = order.findIndex(key => localStorage.getItem(key) !== 'true');
+        if (nextPoiIndex === -1) nextPoiIndex = pois.length - 1; // tous validés, sécurité
+        const nextPoi = pois[nextPoiIndex];
+        const nextDist = getDistance(simulatedLat, simulatedLng, nextPoi.coords[0], nextPoi.coords[1]);
+        if (nextDist < distMinActivation && nextPoiIndex < pois.length - 1) {
+            const questionPages = [
+                'question-poi1.html',
+                'question-poi2.html',
+                'question-poi3a.html',
+                'question-poi3b.html',
+                'question-poi4.html',
+                'question-poi5.html',
+                'question-poi6.html'
+            ];
+            const pinId = nextPoi.id.replace('poi', '');
+            shakePinAndRedirect(pinId, questionPages[nextPoiIndex], '../audio/validation.mp3');
+        } else if (nextDist < distMinActivation && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') !== 'true') {
+            const pinId = nextPoi.id.replace('poi', '');
+            shakePinAndRedirect(pinId, 'question-poi6.html', '../audio/validation.mp3');
+        } else if (nextDist < distMinActivation && nextPoiIndex === pois.length - 1 && localStorage.getItem('poi6_valid') === 'true') {
+            map.setView([43.094526056316866, 5.8933725276797215], 18);
+        }
+    }
+    // Gestion des flèches du clavier
+    window.addEventListener('keydown', function(e) {
+        switch (e.key) {
+            case 'ArrowUp':
+                simulatedLat += step;
+                break;
+            case 'ArrowDown':
+                simulatedLat -= step;
+                break;
+            case 'ArrowLeft':
+                simulatedLng -= step;
+                break;
+            case 'ArrowRight':
+                simulatedLng += step;
+                break;
+            default:
+                return;
+        }
+        updateSimulatedPosition();
+    });
+}
 
 
